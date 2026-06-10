@@ -35,6 +35,52 @@
 
 /* --- Base Reset & Typography --- */
 @layer base {
+  @media (pointer: fine) {
+    html.custom-cursor-active,
+    html.custom-cursor-active * {
+      cursor: none !important;
+    }
+  }
+
+  #magic-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--color-fg);
+    background: transparent;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.3s ease,
+                backdrop-filter 0.3s ease,
+                border-width 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform, width, height;
+  }
+
+  #magic-cursor.lens-active {
+    width: var(--lens-size, 80px);
+    height: var(--lens-size, 80px);
+    border-width: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: invert(1) contrast(1.2);
+  }
+
+  #magic-cursor.image-lens-active {
+    width: 300px;
+    height: 300px;
+    border-width: 3px;
+    background: transparent;
+    backdrop-filter: none;
+    overflow: hidden;
+  }
+
   html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -87,6 +133,7 @@
     line-height: 1.1;
     margin: 0;
     letter-spacing: -0.02em;
+    width: fit-content;
   }
 
   h1 {
@@ -144,13 +191,15 @@
   .neo-box {
     background-color: var(--color-main);
     border: var(--border-width) solid var(--color-fg);
-    box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--box-shadow-color);
+    box-shadow: var(--x-shadow, var(--box-shadow-x)) var(--y-shadow, var(--box-shadow-y)) 0px 0px var(--box-shadow-color);
+    transition: box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   /* Base Panel classes for large blocks */
   .neo-panel {
     border: var(--border-width) solid var(--color-fg);
-    box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--box-shadow-color);
+    box-shadow: var(--x-shadow, var(--box-shadow-x)) var(--y-shadow, var(--box-shadow-y)) 0px 0px var(--box-shadow-color);
+    transition: box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .neo-panel--cyan {

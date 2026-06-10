@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import originalImg from '../assets/original.png';
+import filteredImg from '../assets/filtered.png';
 ---
 
 <Layout title="Ayan Mahata — Security · Systems · ML">
@@ -25,13 +28,81 @@ import '../styles/global.css';
       </div>
     </div>
     
-    <div class="neo-box w-full h-[320px] md:h-[380px] flex items-center justify-center bg-white relative overflow-hidden">
-      <div class="font-heading text-6xl md:text-8xl font-black text-gray-200 select-none flex items-center">
-        <span>&lt; /&gt;</span>
-        <span class="text-black animate-pulse">_</span>
-      </div>
+    <div class="neo-box w-full h-[320px] md:h-[380px] bg-white relative cursor-none" id="hero-image-container">
+      <Image 
+        src={filteredImg} 
+        alt="Filtered" 
+        class="absolute inset-0 w-full h-full object-cover pointer-events-none"
+      />
     </div>
   </section>
+
+  <div id="image-source-hidden" class="hidden">
+    <Image 
+      src={originalImg} 
+      alt="Original" 
+      id="cursor-glass-img"
+      class="absolute top-1/2 left-1/2 max-w-none object-cover opacity-0 transition-opacity duration-300 pointer-events-none"
+    />
+  </div>
+
+  <script>
+    const container = document.getElementById('hero-image-container');
+    const cursorGlassImg = document.getElementById('cursor-glass-img');
+    // Global magic cursor defined in Layout.astro
+    const magicCursor = document.getElementById('magic-cursor');
+
+    if (container && cursorGlassImg && magicCursor) {
+      
+      // Inject image into the global cursor
+      magicCursor.appendChild(cursorGlassImg);
+
+      let isHoveringOrFading = false;
+      let fadeTimeout;
+
+      const updateCursor = (e) => {
+        if (!isHoveringOrFading) return;
+        
+        const rect = container.getBoundingClientRect();
+        
+        // Set dimensions of the inner image to exactly match the container
+        cursorGlassImg.style.width = `${rect.width}px`;
+        cursorGlassImg.style.height = `${rect.height}px`;
+
+        // Center-based offset:
+        const offsetX = rect.left - e.clientX;
+        const offsetY = rect.top - e.clientY;
+        
+        cursorGlassImg.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      };
+
+      // Listen on window so it continues tracking even when cursor leaves the container
+      window.addEventListener('mousemove', updateCursor);
+
+      container.addEventListener('mouseenter', (e) => {
+        isHoveringOrFading = true;
+        clearTimeout(fadeTimeout);
+        
+        // Ensure immediate update before opacity transitions
+        updateCursor(e);
+        
+        magicCursor.classList.add('image-lens-active');
+        cursorGlassImg.classList.remove('opacity-0');
+        cursorGlassImg.classList.add('opacity-100');
+      });
+
+      container.addEventListener('mouseleave', () => {
+        magicCursor.classList.remove('image-lens-active');
+        cursorGlassImg.classList.remove('opacity-100');
+        cursorGlassImg.classList.add('opacity-0');
+        
+        // Keep updating position for 300ms while it fades out
+        fadeTimeout = setTimeout(() => {
+          isHoveringOrFading = false;
+        }, 300);
+      });
+    }
+  </script>
 
   <!-- ═══════════════════════════════════════════════
        BASE OF OPERATIONS (Experience)

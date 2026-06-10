@@ -38,12 +38,39 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body>
+    <!-- Custom Magic Cursor -->
+    <div id="magic-cursor"></div>
+
     <!-- Navigation -->
     <nav class="site-nav" id="site-nav">
       <div class="nav-inner">
-        <a href="/" class="nav-brand" id="nav-home">
-          AYAN_MAHATA
-        </a>
+        <div class="nav-brand-group">
+          <a href="/" class="nav-brand" id="nav-home">
+            AYAN_MAHATA
+          </a>
+          <div class="nav-socials">
+            <a
+              href="https://github.com/RickyTheDude"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="neo-social-btn"
+              id="header-github"
+              aria-label="GitHub Profile"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="social-icon"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ayan-mahata-5ba223239/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="neo-social-btn"
+              id="header-linkedin"
+              aria-label="LinkedIn Profile"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="social-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
         <ul class="nav-links" id="nav-links">
           {navLinks.map((link) => (
             <li>
@@ -78,10 +105,20 @@ const currentPath = Astro.url.pathname;
     <div id="scroll-progress"></div>
 
     <script>
-      // Track mouse coordinates for the interactive dot matrix background
+      // Enable custom cursor styles only if JS loads
+      document.documentElement.classList.add('custom-cursor-active');
+
+      const magicCursor = document.getElementById('magic-cursor');
+
+      // Track mouse coordinates for the interactive dot matrix background and custom cursor
       const updateMousePosition = (e: MouseEvent) => {
         document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
         document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        
+        if (magicCursor) {
+          // Use translation for highly performant following
+          magicCursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+        }
       };
 
       const updateTouchPosition = (e: TouchEvent) => {
@@ -119,6 +156,87 @@ const currentPath = Astro.url.pathname;
           }
         }
       });
+
+      // Dynamic Neobrutalist Shadow Tracking
+      const initDynamicShadows = () => {
+        const tiles = document.querySelectorAll('.neo-box, .neo-panel');
+        
+        tiles.forEach((tile) => {
+          const htmlTile = tile as HTMLElement;
+          
+          htmlTile.addEventListener('mousemove', (e) => {
+            const rect = htmlTile.getBoundingClientRect();
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const dx = mouseX - centerX;
+            const dy = mouseY - centerY;
+            
+            // Maximum shadow offset in pixels
+            const maxOffset = 10;
+            
+            // Calculate shadow position (pushed away from cursor to act as light source)
+            const shadowX = -((dx / (rect.width / 2)) * maxOffset);
+            const shadowY = -((dy / (rect.height / 2)) * maxOffset);
+            
+            htmlTile.style.setProperty('--x-shadow', `${shadowX.toFixed(1)}px`);
+            htmlTile.style.setProperty('--y-shadow', `${shadowY.toFixed(1)}px`);
+          });
+          
+          htmlTile.addEventListener('mouseleave', () => {
+            htmlTile.style.removeProperty('--x-shadow');
+            htmlTile.style.removeProperty('--y-shadow');
+          });
+        });
+      };
+
+      // Initialize Magic Cursor Lens Effects
+      const initLensEffect = () => {
+        const cursor = document.getElementById('magic-cursor');
+        if (!cursor) return;
+        
+        document.body.addEventListener('mouseover', (e) => {
+          const target = e.target as HTMLElement;
+          if (!target) return;
+
+          // If hovering inside a button, turn off the lens
+          if (target.closest('.neo-btn, .neo-social-btn')) {
+            cursor.classList.remove('lens-active');
+            return;
+          }
+          
+          // Target all standard text elements + any div containing plain text metadata
+          const isTextElement = target.closest('h1, h2, h3, h4, h5, h6, p, span, li, a, strong, em, .font-mono div, .footer-inner');
+          
+          if (isTextElement) {
+            // Dynamically scale looking glass based on font size
+            const style = window.getComputedStyle(isTextElement as Element);
+            const fontSize = parseFloat(style.fontSize) || 16;
+            
+            // Refined ratio: 16px text -> 60px lens, 48px text -> 120px lens
+            const lensSize = Math.min(Math.max(60, fontSize * 2.5), 150);
+            
+            cursor.style.setProperty('--lens-size', `${lensSize}px`);
+            cursor.classList.add('lens-active');
+          } else {
+            cursor.classList.remove('lens-active');
+          }
+        });
+      };
+
+      // Run on initialization
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          initDynamicShadows();
+          initLensEffect();
+        });
+      } else {
+        initDynamicShadows();
+        initLensEffect();
+      }
     </script>
   </body>
 </html>
@@ -147,6 +265,52 @@ const currentPath = Astro.url.pathname;
     gap: 2rem;
     max-width: var(--container-max);
     margin: 0 auto;
+  }
+
+  .nav-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .neo-social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background-color: var(--color-main);
+    border: var(--border-width) solid var(--color-fg);
+    box-shadow: 3px 3px 0px 0px var(--box-shadow-color);
+    color: var(--color-fg);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease;
+  }
+
+  .neo-social-btn:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px 0px var(--box-shadow-color);
+  }
+
+  #header-github:hover {
+    background-color: var(--color-fg);
+    color: var(--color-main);
+  }
+
+  #header-linkedin:hover {
+    background-color: #74c0fc; /* Premium light blue */
+    color: var(--color-fg);
+  }
+
+  .social-icon {
+    display: block;
+    width: 18px;
+    height: 18px;
   }
 
   .nav-brand {
