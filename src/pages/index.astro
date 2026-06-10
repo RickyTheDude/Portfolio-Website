@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import originalImg from '../assets/original.png';
 import filteredImg from '../assets/filtered.png';
+import filteredDarkImg from '../assets/filtered-dark.png';
 import { getCollection } from 'astro:content';
 
 // Latest 3 journal entries for the homepage preview
@@ -29,13 +30,13 @@ function formatJournalDate(date: Date) {
       <span class="neo-tag mb-6">SOFTWARE DEVELOPER</span>
       <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-none mb-6">HELLO<br/>WORLD!</h1>
       
-      <div class="font-mono text-base md:text-lg text-gray-700 leading-relaxed mb-8 max-w-lg">
+      <div class="font-mono text-base md:text-lg leading-relaxed mb-8 max-w-lg" style="color: var(--color-fg); opacity: 0.8;">
         <p>I'm Ayan. A software developer, cybersecurity and consumer electronics enthusiast, and a connoisseur of good design. Welcome to my cozy corner on the interwebs.</p>
       </div>
       
       <div class="flex flex-wrap gap-4">
         <a href="/projects" class="neo-btn neo-btn--yellow px-6 py-3 text-base">ALL PROJECTS</a>
-        <a href="/blog" class="neo-btn px-6 py-3 text-base flex items-center gap-2 bg-white" id="hero-blog-btn">
+        <a href="/blog" class="neo-btn px-6 py-3 text-base flex items-center gap-2" style="background-color: var(--color-main);" id="hero-blog-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
           <span>READ BLOG</span>
         </a>
@@ -46,7 +47,12 @@ function formatJournalDate(date: Date) {
       <Image 
         src={filteredImg} 
         alt="Filtered" 
-        class="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        class="absolute inset-0 w-full h-full object-cover pointer-events-none img-light"
+      />
+      <Image 
+        src={filteredDarkImg} 
+        alt="Filtered Dark" 
+        class="absolute inset-0 w-full h-full object-cover pointer-events-none img-dark"
       />
     </div>
   </section>
@@ -133,6 +139,7 @@ function formatJournalDate(date: Date) {
         // Ensure immediate update before opacity transitions
         updateCursor(e);
         
+        magicCursor.classList.remove('image-lens-fading');
         magicCursor.classList.add('image-lens-active');
         cursorGlassImg.classList.remove('opacity-0');
         cursorGlassImg.classList.add('opacity-100');
@@ -140,12 +147,14 @@ function formatJournalDate(date: Date) {
 
       container.addEventListener('mouseleave', () => {
         magicCursor.classList.remove('image-lens-active');
+        magicCursor.classList.add('image-lens-fading');
         cursorGlassImg.classList.remove('opacity-100');
         cursorGlassImg.classList.add('opacity-0');
         
         // Keep updating position for 300ms while it fades out
         fadeTimeout = setTimeout(() => {
           isHoveringOrFading = false;
+          magicCursor.classList.remove('image-lens-fading');
         }, 300);
       });
     }
@@ -154,7 +163,7 @@ function formatJournalDate(date: Date) {
   <!-- ═══════════════════════════════════════════════
        BASE OF OPERATIONS (Experience)
        ═══════════════════════════════════════════════ -->
-  <section class="neo-panel neo-panel--cyan p-8 md:p-12 mb-16 md:mb-24 relative">
+  <section class="neo-panel neo-panel--cyan p-8 md:p-12 mb-16 md:mb-24 relative text-black">
     <h2 class="text-2xl md:text-4xl font-black mb-8 uppercase tracking-tight">BASE OF OPERATIONS</h2>
     
     <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8">
@@ -171,7 +180,7 @@ function formatJournalDate(date: Date) {
       
       <div class="font-mono text-base md:text-lg leading-relaxed text-black">
         <p>
-          Currently coordinating the Cybersecurity Wing at GeekHaven while building apps and experimenting with consumer electronics.
+          Currently on vacation while building apps and experimenting with consumer electronics.
           Always tinkering with stuff, solving interesting problems, and crafting clean user experiences. A tad bit worldcup <i>feverish</i> now!
         </p>
       </div>
@@ -231,9 +240,9 @@ function formatJournalDate(date: Date) {
             style="--note-bg: #cffafe; --note-rot: 3deg;"
           >
             <div class="sticky-tape"></div>
-            <div class="cta-content">
+            <div class="cta-content text-black">
               <span class="font-black text-2xl uppercase tracking-tight leading-tight">Explore the Archives</span>
-              <span class="font-mono text-sm mt-3 text-gray-600">Read all journal entries &rarr;</span>
+              <span class="font-mono text-sm mt-3" style="color: rgba(0,0,0,0.7);">Read all journal entries &rarr;</span>
             </div>
           </a>
         </>
@@ -269,7 +278,7 @@ function formatJournalDate(date: Date) {
     box-shadow: 6px 6px 0 0 rgba(0,0,0,0.15); /* softer shadow for paper */
     padding: 2.5rem 2rem 2rem;
     text-decoration: none;
-    color: var(--color-fg);
+    color: #111;
     transform: rotate(var(--note-rot));
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, z-index 0s;
     z-index: 10;
@@ -358,7 +367,7 @@ function formatJournalDate(date: Date) {
   }
 
   .sticky-note:hover .sticky-footer {
-    color: var(--color-fg);
+    color: #111;
   }
 
   /* ── Mobile ── */

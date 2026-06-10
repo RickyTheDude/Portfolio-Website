@@ -33,6 +33,15 @@
   --container-max: 1000px;
 }
 
+html.dark {
+  --color-bg: #1a1a1a;
+  --color-fg: #e8e8e8;
+  --color-main: #242424;
+  --color-cyan: #9b85c9;
+  --color-yellow: #e06a4c;
+  --color-pink: #2d8a57; /* Darker, richer emerald green for better white text contrast */
+}
+
 /* --- Base Reset & Typography --- */
 @layer base {
   @media (pointer: fine) {
@@ -72,13 +81,20 @@
     backdrop-filter: invert(1) contrast(1.2);
   }
 
-  #magic-cursor.image-lens-active {
+  html.dark #magic-cursor.lens-active {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: invert(1) contrast(1.2);
+  }
+
+  #magic-cursor.image-lens-active,
+  #magic-cursor.image-lens-fading {
     width: 300px;
     height: 300px;
     border-width: 3px;
     background: transparent;
     backdrop-filter: none;
     overflow: hidden;
+    z-index: 90;
   }
 
   html {
@@ -112,6 +128,10 @@
     pointer-events: none;
   }
 
+  html.dark body::before {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+  }
+
   /* Interactive Darker Dots Highlight (Spotlight) */
   body::after {
     content: "";
@@ -124,6 +144,10 @@
     /* Mask centered on mouse coordinates */
     mask-image: radial-gradient(circle 160px at var(--mouse-x, -999px) var(--mouse-y, -999px), black 20%, transparent 100%);
     -webkit-mask-image: radial-gradient(circle 160px at var(--mouse-x, -999px) var(--mouse-y, -999px), black 20%, transparent 100%);
+  }
+
+  html.dark body::after {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px);
   }
 
   h1,
@@ -175,7 +199,18 @@
 
   ::selection {
     background-color: var(--color-pink);
-    color: var(--color-fg);
+    color: #000;
+  }
+
+  /* Image Theme Toggling */
+  .img-dark {
+    display: none !important;
+  }
+  html.dark .img-dark {
+    display: block !important;
+  }
+  html.dark .img-light {
+    display: none !important;
   }
 }
 
@@ -206,6 +241,14 @@
 
   .neo-panel--cyan {
     background-color: var(--color-cyan);
+  }
+
+  .neo-panel--yellow {
+    background-color: var(--color-yellow);
+  }
+
+  .neo-panel--pink {
+    background-color: var(--color-pink);
   }
 
   .neo-panel--white {

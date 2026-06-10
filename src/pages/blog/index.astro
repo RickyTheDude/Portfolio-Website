@@ -133,7 +133,7 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
 <style>
   /* ── Page sheet ── */
   .page-sheet {
-    background: #ffffff;
+    background: var(--color-main);
     border: 3px solid var(--color-fg);
     box-shadow: 8px 8px 0 0 var(--color-fg);
     padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 3.5rem;
@@ -155,7 +155,8 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.15em;
-    color: #aaa;
+    color: var(--color-fg);
+    opacity: 0.5;
     margin: 0 0 0.5rem;
   }
 
@@ -171,7 +172,8 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
   .blog-sub {
     font-size: 0.82rem;
     font-weight: 400;
-    color: #777;
+    color: var(--color-fg);
+    opacity: 0.7;
     line-height: 1.7;
     margin: 0;
     text-align: right;
@@ -306,7 +308,7 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
     flex-direction: column;
     border: 3px solid var(--color-fg);
     box-shadow: 5px 5px 0 0 var(--color-fg);
-    background: #fff;
+    background: var(--color-main);
     text-decoration: none;
     color: var(--color-fg);
     overflow: hidden;
@@ -337,7 +339,8 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
     justify-content: space-between;
     font-size: 0.68rem;
     font-weight: 700;
-    color: #aaa;
+    color: var(--color-fg);
+    opacity: 0.5;
   }
 
   .card-mins {
@@ -361,7 +364,8 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
 
   .card-desc {
     font-size: 0.78rem;
-    color: #777;
+    color: var(--color-fg);
+    opacity: 0.7;
     line-height: 1.6;
     margin: 0;
     font-weight: 400;
@@ -377,26 +381,30 @@ const ACCENTS = ['var(--color-yellow)', 'var(--color-cyan)', 'var(--color-pink)'
     align-items: center;
     gap: 0.4rem;
     padding: 0.75rem 1.5rem;
-    border-top: 2px solid #f0f0f0;
+    border-top: 2px solid var(--color-fg);
+    opacity: 0.9;
   }
 
   .card-arrow {
     margin-left: auto;
     font-size: 1rem;
     font-weight: 700;
-    color: #ccc;
-    transition: color 0.15s ease, transform 0.15s ease;
+    color: var(--color-fg);
+    opacity: 0.3;
+    transition: color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
   }
 
   .bento-card:hover .card-arrow {
     color: var(--color-fg);
+    opacity: 1;
     transform: translateX(3px);
   }
 
   /* ── Empty ── */
   .empty {
     font-size: 0.9rem;
-    color: #aaa;
+    color: var(--color-fg);
+    opacity: 0.5;
     padding: 4rem 0;
   }
 

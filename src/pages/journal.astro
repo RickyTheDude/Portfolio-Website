@@ -95,7 +95,7 @@ function formatShort(date: Date) {
 <style>
   /* ── Sheet ── */
   .page-sheet {
-    background: #fff;
+    background: var(--color-main);
     border: 3px solid var(--color-fg);
     box-shadow: 8px 8px 0 0 var(--color-fg);
     position: relative;
@@ -113,13 +113,15 @@ function formatShort(date: Date) {
     padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 2.5rem;
     border-bottom: 3px solid var(--color-fg);
     background-color: var(--color-pink); /* sage green */
+    color: var(--color-fg);
   }
 
   .journal-eyebrow {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.15em;
-    color: rgba(0,0,0,0.45);
+    color: var(--color-fg);
+    opacity: 0.6;
     margin: 0 0 0.5rem;
   }
 
@@ -134,7 +136,8 @@ function formatShort(date: Date) {
 
   .journal-sub {
     font-size: 0.8rem;
-    color: rgba(0,0,0,0.5);
+    color: var(--color-fg);
+    opacity: 0.7;
     line-height: 1.7;
     margin: 0;
     text-align: right;
@@ -150,7 +153,8 @@ function formatShort(date: Date) {
   /* ── Entry ── */
   .journal-entry {
     padding: 3rem clamp(1.5rem, 5vw, 3.5rem);
-    border-bottom: 2px solid #e8e8e8;
+    border-bottom: 2px solid var(--color-fg);
+    opacity: 0.95;
     position: relative;
     scroll-margin-top: 140px; /* clears the fixed navbar when jumping to an anchor */
   }
@@ -185,7 +189,8 @@ function formatShort(date: Date) {
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    color: #bbb;
+    color: var(--color-fg);
+    opacity: 0.4;
   }
 
   .entry-date {
@@ -203,7 +208,7 @@ function formatShort(date: Date) {
     background-color: var(--color-cyan);
     border: 1.5px solid var(--color-fg);
     padding: 0.2em 0.7em;
-    color: var(--color-fg);
+    color: #111;
   }
 
   /* ── Journal prose ── */
@@ -211,7 +216,7 @@ function formatShort(date: Date) {
     font-family: var(--font-mono);
     font-size: 0.9rem;
     line-height: 1.9;
-    color: #333;
+    color: var(--color-fg);
     max-width: 66ch;
   }
 
@@ -252,15 +257,16 @@ function formatShort(date: Date) {
   .journal-prose :global(blockquote) {
     border-left: 3px solid var(--color-fg);
     padding-left: 1rem;
-    color: #666;
+    color: var(--color-fg);
+    opacity: 0.7;
     font-style: italic;
     margin: 1.25rem 0;
   }
 
   .journal-prose :global(code) {
     font-family: var(--font-mono);
-    background: #f4f4f4;
-    border: 1.5px solid #ddd;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-fg);
     padding: 0.1em 0.4em;
     font-size: 0.875em;
   }
@@ -268,7 +274,8 @@ function formatShort(date: Date) {
   /* ── Empty ── */
   .journal-empty {
     font-size: 0.9rem;
-    color: #aaa;
+    color: var(--color-fg);
+    opacity: 0.5;
     padding: 4rem clamp(1.5rem, 5vw, 3.5rem);
   }
 

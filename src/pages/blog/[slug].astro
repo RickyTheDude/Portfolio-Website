@@ -89,7 +89,7 @@ const mins = readingTime(post.body ?? '');
 <style>
   /* ── Page sheet ── */
   .page-sheet {
-    background: #ffffff;
+    background: var(--color-main);
     border: 3px solid var(--color-fg);
     box-shadow: 8px 8px 0 0 var(--color-fg);
     padding: 0;
@@ -105,6 +105,7 @@ const mins = readingTime(post.body ?? '');
     border-bottom: 3px solid var(--color-fg);
     position: relative;
     overflow: hidden;
+    color: #111;
   }
 
   /* decorative oversized letter */
@@ -135,7 +136,7 @@ const mins = readingTime(post.body ?? '');
     transition: color 0.15s ease;
   }
 
-  .post-back:hover { color: var(--color-fg); }
+  .post-back:hover { color: #111; }
 
   .post-hero-meta {
     display: flex;
@@ -184,7 +185,8 @@ const mins = readingTime(post.body ?? '');
 
   .post-desc {
     font-size: 0.92rem;
-    color: #555;
+    color: var(--color-fg);
+    opacity: 0.8;
     line-height: 1.75;
     margin: 0;
     max-width: 58ch;
@@ -259,6 +261,7 @@ const mins = readingTime(post.body ?? '');
     margin: 2rem 0;
     padding: 0.75rem 1.5rem;
     background-color: var(--color-pink);
+    color: #111;
   }
 
   .prose-blog :global(blockquote p) { margin: 0; }
@@ -289,7 +292,7 @@ const mins = readingTime(post.body ?? '');
 
   .prose-blog :global(p code),
   .prose-blog :global(li code) {
-    background-color: #f0f0f0;
+    background-color: var(--color-bg);
     border: 1.5px solid var(--color-fg);
     padding: 0.1em 0.4em;
     font-size: 0.875em;
