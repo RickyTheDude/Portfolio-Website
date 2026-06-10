@@ -4,26 +4,40 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import originalImg from '../assets/original.png';
 import filteredImg from '../assets/filtered.png';
+import { getCollection } from 'astro:content';
+
+// Latest 3 journal entries for the homepage preview
+const journalEntries = await getCollection('journal', ({ data }) => !data.draft);
+journalEntries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latestEntries = journalEntries.slice(0, 3);
+
+function formatJournalDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).toUpperCase();
+}
 ---
 
-<Layout title="Ayan Mahata — Security · Systems · ML">
+<Layout title="Ayan Mahata — Hey!">
   <!-- ═══════════════════════════════════════════════
        HERO
        ═══════════════════════════════════════════════ -->
   <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 md:mb-24 items-center">
     <div class="flex flex-col items-start text-left">
       <span class="neo-tag mb-6">SOFTWARE DEVELOPER</span>
-      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-none mb-6">HELLO<br/>WORLD.</h1>
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-none mb-6">HELLO<br/>WORLD!</h1>
       
       <div class="font-mono text-base md:text-lg text-gray-700 leading-relaxed mb-8 max-w-lg">
-        <p>I'm Ayan. I build bold, functional software in the realms of cybersecurity, systems engineering, and machine learning.</p>
+        <p>I'm Ayan. A software developer, cybersecurity and consumer electronics enthusiast, and a connoisseur of good design. Welcome to my cozy corner on the interwebs.</p>
       </div>
       
       <div class="flex flex-wrap gap-4">
         <a href="/projects" class="neo-btn neo-btn--yellow px-6 py-3 text-base">ALL PROJECTS</a>
-        <a href="mailto:ayan@example.com" class="neo-btn px-6 py-3 text-base flex items-center gap-2 bg-white">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <span>CONTACT</span>
+        <a href="/blog" class="neo-btn px-6 py-3 text-base flex items-center gap-2 bg-white" id="hero-blog-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+          <span>READ BLOG</span>
         </a>
       </div>
     </div>
@@ -61,6 +75,8 @@ import filteredImg from '../assets/filtered.png';
       let fadeTimeout;
       let borderLeft = 3;
       let borderTop = 3;
+      let lastClientX = 0;
+      let lastClientY = 0;
 
       // Cache border widths once to avoid layout thrashing during mousemove
       try {
@@ -71,6 +87,12 @@ import filteredImg from '../assets/filtered.png';
 
       const updateCursor = (e) => {
         if (!isHoveringOrFading) return;
+        
+        // Save the latest mouse position if available (e.g. from mousemove)
+        if (e && e.clientX !== undefined) {
+          lastClientX = e.clientX;
+          lastClientY = e.clientY;
+        }
         
         const rect = container.getBoundingClientRect();
         
@@ -85,15 +107,17 @@ import filteredImg from '../assets/filtered.png';
         const innerLeft = rect.left + borderLeft;
         const innerTop = rect.top + borderTop;
         
-        // Center-based offset:
-        const offsetX = innerLeft - e.clientX;
-        const offsetY = innerTop - e.clientY;
+        // Center-based offset using the last known mouse coordinates
+        const offsetX = innerLeft - lastClientX;
+        const offsetY = innerTop - lastClientY;
         
         cursorGlassImg.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
       };
 
       // Listen on window so it continues tracking even when cursor leaves the container
       window.addEventListener('mousemove', updateCursor);
+      // Update offsets on scroll to keep the illusion perfect
+      window.addEventListener('scroll', updateCursor, { passive: true });
 
       container.addEventListener('mouseenter', (e) => {
         isHoveringOrFading = true;
@@ -147,49 +171,201 @@ import filteredImg from '../assets/filtered.png';
       
       <div class="font-mono text-base md:text-lg leading-relaxed text-black">
         <p>
-          Currently coordinating the Cybersecurity Wing at GeekHaven and prototyping ML systems for edge deployment. 
-          Specializing in full-stack development with a focus on breaking design norms.
+          Currently coordinating the Cybersecurity Wing at GeekHaven while building apps and experimenting with consumer electronics.
+          Always tinkering with stuff, solving interesting problems, and crafting clean user experiences. A tad bit worldcup <i>feverish</i> now!
         </p>
       </div>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════
-       PROJECTS
+       JOURNAL PREVIEW — Sticky Notes
        ═══════════════════════════════════════════════ -->
-  <section class="mb-16 md:mb-24">
-    <h2 class="text-2xl md:text-4xl font-black mb-8 uppercase tracking-tight">LATEST WORK</h2>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
-        <div>
-          <h3 class="text-xl md:text-2xl font-black mb-3">Road Object-Detection</h3>
-          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">Real-time object detection pipeline optimized for edge inference. Sub-30ms latency.</p>
-        </div>
-        <div class="flex">
-          <span class="neo-tag bg-[var(--color-yellow)]">Computer Vision</span>
-        </div>
-      </article>
+  <section class="sticky-journal-section mb-0">
+    <div class="flex justify-between items-end mb-10">
+      <h2 class="text-2xl md:text-4xl font-black uppercase tracking-tight">Field Notes.</h2>
+      <a href="/journal" class="neo-btn font-mono text-xs px-4 py-2 flex items-center gap-2">
+        OPEN JOURNAL <span aria-hidden="true">→</span>
+      </a>
+    </div>
 
-      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
-        <div>
-          <h3 class="text-xl md:text-2xl font-black mb-3">Cybergeek CTF</h3>
-          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">CTF platform with challenge categories focused on AI/ML security.</p>
-        </div>
-        <div class="flex">
-          <span class="neo-tag bg-[var(--color-main)]">AI Security</span>
-        </div>
-      </article>
+    <div class="sticky-notes-container">
+      {latestEntries.length === 0 ? (
+        <p class="font-mono text-sm" style="color:#aaa;">// nothing yet.</p>
+      ) : (
+        <>
+          {latestEntries.map((entry, i) => {
+            const snippet = (entry.body ?? '').replace(/^---[\s\S]*?---/, '').trim().slice(0, 160);
+            const rotation = i % 2 === 0 ? '-3deg' : '4deg';
+            const bgColor = '#fef08a'; /* classic sticky note yellow */
+            
+            return (
+              <a 
+                href={`/journal#entry-${entry.id}`}
+                class="sticky-note group"
+                style={`--note-bg: ${bgColor}; --note-rot: ${rotation};`}
+              >
+                <!-- Masking Tape -->
+                <div class="sticky-tape"></div>
 
-      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
-        <div>
-          <h3 class="text-xl md:text-2xl font-black mb-3">Secure File Vault</h3>
-          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">End-to-end encrypted file storage system with zero-knowledge architecture.</p>
-        </div>
-        <div class="flex">
-          <span class="neo-tag bg-[var(--color-pink)]">Cryptography</span>
-        </div>
-      </article>
+                <div class="sticky-meta font-mono">
+                  <time class="sticky-date">{formatJournalDate(entry.data.date)}</time>
+                  {entry.data.mood && (
+                    <span class="sticky-mood">{entry.data.mood}</span>
+                  )}
+                </div>
+                
+                <p class="sticky-snippet font-mono">{snippet}&hellip;</p>
+                
+                <div class="sticky-footer font-mono">
+                  read entry ↗
+                </div>
+              </a>
+            );
+          })}
+          
+          <!-- 4th sticky note is the View All prompt -->
+          <a 
+            href="/journal" 
+            class="sticky-note sticky-cta group"
+            style="--note-bg: #cffafe; --note-rot: 3deg;"
+          >
+            <div class="sticky-tape"></div>
+            <div class="cta-content">
+              <span class="font-black text-2xl uppercase tracking-tight leading-tight">Explore the Archives</span>
+              <span class="font-mono text-sm mt-3 text-gray-600">Read all journal entries &rarr;</span>
+            </div>
+          </a>
+        </>
+      )}
     </div>
   </section>
 </Layout>
+
+<style>
+  /* ── Sticky Notes Layout ── */
+  .sticky-journal-section {
+    border-top: 3px solid var(--color-fg);
+    padding-top: 3rem;
+  }
+
+  .sticky-notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 0 0.5rem;
+  }
+
+  /* ── The Sticky Note ── */
+  .sticky-note {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 340px;
+    background-color: var(--note-bg);
+    border: 3px solid var(--color-fg);
+    box-shadow: 6px 6px 0 0 rgba(0,0,0,0.15); /* softer shadow for paper */
+    padding: 2.5rem 2rem 2rem;
+    text-decoration: none;
+    color: var(--color-fg);
+    transform: rotate(var(--note-rot));
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, z-index 0s;
+    z-index: 10;
+  }
+
+  /* Staggering the even notes */
+  .sticky-note:nth-child(even) {
+    margin-top: 2rem;
+  }
+
+  .sticky-note:hover {
+    transform: rotate(0deg) scale(1.05) translateY(-10px);
+    box-shadow: 12px 12px 0 0 rgba(0,0,0,0.2);
+    z-index: 20;
+  }
+
+  /* CTA Note styles */
+  .sticky-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  /* ── Masking Tape ── */
+  .sticky-tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 70px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.65);
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    z-index: 12;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
+  /* ── Content ── */
+  .sticky-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px dashed rgba(0,0,0,0.2);
+  }
+
+  .sticky-date {
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .sticky-mood {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: rgba(255,255,255,0.4);
+    border: 1.5px solid rgba(0,0,0,0.4);
+    padding: 0.15em 0.5em;
+  }
+
+  .sticky-snippet {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+    font-weight: 500;
+  }
+
+  .sticky-footer {
+    margin-top: auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: right;
+    color: rgba(0,0,0,0.5);
+    transition: color 0.2s ease;
+  }
+
+  .sticky-note:hover .sticky-footer {
+    color: var(--color-fg);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .sticky-note {
+      transform: rotate(0deg) !important;
+      margin-top: 0 !important;
+    }
+  }
+</style>

@@ -6,12 +6,13 @@ interface Props {
 
 const {
   title = 'Ayan Mahata',
-  description = 'Security, Systems, and Machine Learning. Personal archive of projects, writing, and experience.',
+  description = 'My cozy corner on the interwebs!',
 } = Astro.props;
 
 const navLinks = [
   { label: 'HOME', href: '/' },
   { label: 'PROJECTS', href: '/projects' },
+  { label: 'BLOG', href: '/blog' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -24,7 +25,7 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="author" content="Ayan Mahata" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#ffffffff" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +47,7 @@ const currentPath = Astro.url.pathname;
       <div class="nav-inner">
         <div class="nav-brand-group">
           <a href="/" class="nav-brand" id="nav-home">
-            AYAN_MAHATA
+            AYAN MAHATA
           </a>
           <div class="nav-socials">
             <a
@@ -96,6 +97,8 @@ const currentPath = Astro.url.pathname;
     <footer class="site-footer" id="site-footer">
       <div class="footer-inner">
         <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
+        <span class="mono font-light"> My cozy corner on the interwebs!</span>
+
         <span class="mono font-bold">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
       </div>
     </footer>

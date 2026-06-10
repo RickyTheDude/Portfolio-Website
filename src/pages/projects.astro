@@ -4,43 +4,43 @@ import '../styles/global.css';
 
 const projects = [
   {
-    id: 'road-det',
-    name: 'Road Object-Detection',
-    category: 'Computer Vision',
+    id: 'eink-dashboard',
+    name: 'Aether E-Ink Desk Display',
+    category: 'Hardware & Design',
     tagClass: 'neo-tag--cyan',
-    path: '~/projects/ml/road_detection_v1.bin',
-    size: '14.2 MB',
-    status: 'DEPLOYED',
+    path: '~/projects/hardware/aether_display',
+    size: '2.4 MB',
+    status: 'COMPLETED',
     statusColor: 'text-emerald-700',
-    stack: 'C++ // CUDA // YOLOv8',
-    description: 'Real-time object detection pipeline optimized for edge inference. Achieves sub-30ms latency on low-power devices with TensorRT optimization blocks.',
-    link: 'https://github.com/example/road-detection'
+    stack: 'ESP32 // C++ // E-Paper',
+    description: 'A custom-built, low-power desk display showing system diagnostics, weather, and schedule. Features a hand-soldered PCB, custom 3D-printed enclosure, and sleek minimalist UI.',
+    link: 'https://github.com/example/aether-display'
   },
   {
     id: 'ctf-platform',
     name: 'Cybergeek CTF Platform',
-    category: 'AI Security',
+    category: 'Cybersecurity',
     tagClass: 'neo-tag--pink',
     path: '~/projects/security/ctf_core_engine',
     size: '3.8 MB',
     status: 'ACTIVE',
     statusColor: 'text-[var(--color-cyan)]',
-    stack: 'React // PyTorch // Node.js',
-    description: 'Capture the Flag platform designed with challenges targeting model poisoning, neural network adversarial attacks, and prompt injections.',
+    stack: 'React // Go // Docker',
+    description: 'A cybersecurity learning platform featuring containerized challenges in cryptography, reverse engineering, and web vulnerability exploitation.',
     link: 'https://github.com/example/cybergeek-ctf'
   },
   {
-    id: 'file-vault',
-    name: 'Secure File Vault',
-    category: 'Cryptography',
+    id: 'zenith-player',
+    name: 'Zenith Audio Player',
+    category: 'Software & Design',
     tagClass: 'neo-tag--yellow',
-    path: '~/projects/crypto/file_vault_core',
-    size: '1.2 MB',
+    path: '~/projects/design/zenith_player',
+    size: '8.1 MB',
     status: 'ACTIVE',
     statusColor: 'text-[var(--color-cyan)]',
-    stack: 'Go // WebCrypto API',
-    description: 'End-to-end encrypted file storage system with zero-knowledge architecture, utilizing hybrid homomorphic key swaps and client-side encryption.',
-    link: 'https://github.com/example/secure-file-vault'
+    stack: 'Electron // React // TailwindCSS',
+    description: 'A lightweight audio player focusing on micro-animations, rich typography, and seamless gapless playback. Designed for connoisseurs of minimal desktop aesthetics.',
+    link: 'https://github.com/example/zenith-player'
   }
 ];
 ---
@@ -51,41 +51,31 @@ const projects = [
       <span class="text-gray-500">&gt; </span>PROJECTS_DOSSIER
     </h1>
     
-    <p class="font-mono text-sm md:text-base text-gray-600 mb-12 max-w-2xl leading-relaxed">
-Here's a gallery of what I've built over the years that I'm proud of!
-    </p>
+    <div class="neo-panel neo-panel--yellow p-12 text-center my-8 relative overflow-hidden flex flex-col items-center justify-center gap-6">
+      <!-- Decorative background striped tape aesthetic -->
+      <div class="absolute inset-x-0 top-0 h-4" style="background-image: repeating-linear-gradient(-45deg, var(--color-yellow), var(--color-yellow) 10px, var(--color-fg) 10px, var(--color-fg) 20px);"></div>
+      
+      <!-- Icon/Graphic -->
+      <div class="w-16 h-16 bg-white border-[3px] border-[var(--color-fg)] flex items-center justify-center shadow-[4px_4px_0_0_rgba(0,0,0,1)] mt-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-fg)]"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
 
-    <!-- File Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {projects.map((project) => (
-        <article class="neo-box p-6 md:p-8 rounded flex flex-col justify-between h-full bg-[var(--color-main)] group">
-          <div>
-            <div class="flex items-start justify-between mb-4 flex-wrap gap-2">
-              <h2 class="text-lg md:text-2xl font-bold text-[var(--color-fg)] group-hover:text-[var(--color-cyan)] transition-colors">
-                {project.name}
-              </h2>
-              <span class={`neo-tag ${project.tagClass}`}>{project.category}</span>
-            </div>
+      <div>
+        <h2 class="text-2xl md:text-4xl font-black mb-3 tracking-tight text-[var(--color-fg)]">
+          UNDER CONSTRUCTION
+        </h2>
+        <p class="font-mono text-sm md:text-base text-[var(--color-fg)] max-w-md mx-auto leading-relaxed">
+          I'm currently reorganizing and documenting my projects. Check back soon for the updated gallery!
+        </p>
+      </div>
+<!--
+      <div class="flex flex-wrap gap-4 mt-2 justify-center font-mono text-xs">
+        <span class="bg-[var(--color-fg)] text-[var(--color-yellow)] px-3 py-1 font-bold border border-[var(--color-fg)] shadow-[2px_2px_0_0_rgba(0,0,0,1)]">EST. RESOLUTION: SOON™</span>
+        <span class="bg-white text-[var(--color-fg)] px-3 py-1 font-bold border-[3px] border-[var(--color-fg)] shadow-[2px_2px_0_0_rgba(0,0,0,1)]">STATUS: RE-SHAPING</span>
+      </div>
+      -->
 
-            <p class="text-gray-700 font-medium text-xs md:text-sm mb-6 leading-relaxed">
-              {project.description}
-            </p>
-
-            <!-- Metadata table simplified -->
-            <div class="flex flex-wrap gap-y-2 gap-x-4 text-xs font-mono text-gray-600 border-t border-gray-200 pt-4 mb-6">
-              <div>STATUS: <span class={`font-bold ${project.statusColor}`}>{project.status}</span></div>
-              <div class="text-gray-300">|</div>
-              <div>STACK: <span class="font-bold text-gray-900">{project.stack}</span></div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between pt-4 border-t border-[var(--color-fg)] opacity-85 mt-auto font-mono">
-            <a href={project.link} target="_blank" rel="noopener noreferrer" class="neo-btn text-xs bg-[var(--color-main)]">
-              VIEW SOURCE CODE
-            </a>
-          </div>
-        </article>
-      ))}
+      <div class="absolute inset-x-0 bottom-0 h-4" style="background-image: repeating-linear-gradient(-45deg, var(--color-yellow), var(--color-yellow) 10px, var(--color-fg) 10px, var(--color-fg) 20px);"></div>
     </div>
   </section>
 </Layout>
