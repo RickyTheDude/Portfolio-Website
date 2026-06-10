@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN SYSTEM — Neo-Brutalist
+   ============================================================ */
+
+/* --- Theme Tokens --- */
+@theme {
+  /* Colors */
+  --color-bg: #ffffff; /* Pure white base for continuous background */
+  --color-fg: #111111; /* Rich charcoal black */
+  --color-main: #ffffff; /* Crisp white panels */
+  --color-cyan: #b8a2e3; /* Modern Lavender instead of Nachiket's Neo-Blue */
+  --color-yellow: #ff7a59; /* Warm Coral/Terracotta instead of Nachiket's Yellow */
+  --color-pink: #86efac; /* Minty Sage Green instead of Nachiket's Hot Pink */
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+
+  /* Neobrutalism specifics */
+  --border-width: 3px;
+  --box-shadow-x: 4px;
+  --box-shadow-y: 4px;
+  --box-shadow-color: #000000;
+
+  /* Spacing scale */
+  --spacing-page-x: clamp(1.5rem, 5vw, 4rem);
+  --spacing-section: clamp(3rem, 8vw, 6rem);
+
+  /* Container */
+  --container-max: 1000px;
+}
+
+/* --- Base Reset & Typography --- */
+@layer base {
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Base Light Grey Dots Background */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  /* Interactive Darker Dots Highlight (Spotlight) */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.35) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    /* Mask centered on mouse coordinates */
+    mask-image: radial-gradient(circle 160px at var(--mouse-x, -999px) var(--mouse-y, -999px), black 20%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle 160px at var(--mouse-x, -999px) var(--mouse-y, -999px), black 20%, transparent 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
+  p {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  a {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  hr {
+    border: none;
+    border-top: var(--border-width) solid var(--color-fg);
+    margin: 0;
+  }
+
+  code,
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background-color: var(--color-pink);
+    color: var(--color-fg);
+  }
+}
+
+/* --- Utility Classes --- */
+@layer utilities {
+  .container-page {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-page-x);
+    padding-right: var(--spacing-page-x);
+  }
+
+  /* Core Neobrutalism Box */
+  .neo-box {
+    background-color: var(--color-main);
+    border: var(--border-width) solid var(--color-fg);
+    box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--box-shadow-color);
+  }
+
+  /* Base Panel classes for large blocks */
+  .neo-panel {
+    border: var(--border-width) solid var(--color-fg);
+    box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--box-shadow-color);
+  }
+
+  .neo-panel--cyan {
+    background-color: var(--color-cyan);
+  }
+
+  .neo-panel--white {
+    background-color: var(--color-main);
+  }
+
+  /* Button with Hover effect */
+  .neo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-main);
+    border: var(--border-width) solid var(--color-fg);
+    box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--box-shadow-color);
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease;
+  }
+
+  .neo-btn:hover {
+    transform: translate(var(--box-shadow-x), var(--box-shadow-y));
+    box-shadow: 0px 0px 0px 0px var(--box-shadow-color);
+    background-color: var(--color-cyan); /* Shifts Standard White to Light Lavender */
+  }
+
+  .neo-btn--yellow {
+    background-color: var(--color-yellow);
+  }
+
+  .neo-btn--yellow:hover {
+    background-color: var(--color-pink); /* Shifts Terracotta Orange to Light Sage Green */
+  }
+
+  .neo-tag {
+    display: inline-block;
+    background-color: var(--color-pink);
+    border: 2px solid var(--color-fg);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .neo-tag--cyan {
+    background-color: var(--color-cyan);
+  }
+
+  .neo-tag--pink {
+    background-color: var(--color-pink);
+  }
+
+  .neo-tag--yellow {
+    background-color: var(--color-yellow);
+  }
+}

@@ -1,0 +1,215 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Ayan Mahata',
+  description = 'Security, Systems, and Machine Learning. Personal archive of projects, writing, and experience.',
+} = Astro.props;
+
+const navLinks = [
+  { label: 'HOME', href: '/' },
+  { label: 'PROJECTS', href: '/projects' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ayan Mahata" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="site-nav" id="site-nav">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand" id="nav-home">
+          AYAN_MAHATA
+        </a>
+        <ul class="nav-links" id="nav-links">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="neo-btn"
+                id={`nav-${link.label.toLowerCase()}`}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-page main-wrapper" id="main-content">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="site-footer">
+      <div class="footer-inner">
+        <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
+        <span class="mono font-bold">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
+      </div>
+    </footer>
+
+
+    <!-- Scroll Progress Line -->
+    <div id="scroll-progress"></div>
+
+    <script>
+      // Track mouse coordinates for the interactive dot matrix background
+      const updateMousePosition = (e: MouseEvent) => {
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+      };
+
+      const updateTouchPosition = (e: TouchEvent) => {
+        if (e.touches && e.touches[0]) {
+          document.documentElement.style.setProperty('--mouse-x', `${e.touches[0].clientX}px`);
+          document.documentElement.style.setProperty('--mouse-y', `${e.touches[0].clientY}px`);
+        }
+      };
+
+      // Add listeners for mouse and touch interactions
+      window.addEventListener('mousemove', updateMousePosition);
+      window.addEventListener('touchmove', updateTouchPosition);
+
+      // Scroll Progress Indicator & Header Transition
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+        
+        // Calculate progress percentage
+        const percent = maxScrollY > 0 ? (currentScrollY / maxScrollY) * 100 : 0;
+        
+        // Update width of the progress bar
+        const progressLine = document.getElementById('scroll-progress');
+        if (progressLine) {
+          progressLine.style.width = `${percent}%`;
+        }
+
+        // Smooth header color transition at the bottom
+        const nav = document.getElementById('site-nav');
+        if (nav) {
+          if (percent >= 99.5) { // reached the absolute bottom
+            nav.classList.add('nav-at-bottom');
+          } else {
+            nav.classList.remove('nav-at-bottom');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  /* --- Navigation --- */
+  .site-nav {
+    background-color: var(--color-main);
+    border-bottom: var(--border-width) solid var(--color-fg);
+    padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .site-nav.nav-at-bottom {
+    background-color: var(--color-pink) !important;
+    border-bottom-color: var(--color-pink) !important;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .nav-brand {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--color-fg);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-wrapper {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* --- Footer --- */
+  .site-footer {
+    background-color: var(--color-main);
+    border-top: var(--border-width) solid var(--color-fg);
+    padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    margin-top: 4rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    font-size: 0.875rem;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    .nav-inner {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  }
+
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background-color: var(--color-pink);
+    width: 0%;
+    z-index: 150;
+    transition: width 0.05s ease-out;
+  }
+</style>

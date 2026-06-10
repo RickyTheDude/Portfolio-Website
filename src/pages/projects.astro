@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+const projects = [
+  {
+    id: 'road-det',
+    name: 'Road Object-Detection',
+    category: 'Computer Vision',
+    tagClass: 'neo-tag--cyan',
+    path: '~/projects/ml/road_detection_v1.bin',
+    size: '14.2 MB',
+    status: 'DEPLOYED',
+    statusColor: 'text-emerald-700',
+    stack: 'C++ // CUDA // YOLOv8',
+    description: 'Real-time object detection pipeline optimized for edge inference. Achieves sub-30ms latency on low-power devices with TensorRT optimization blocks.',
+    link: 'https://github.com/example/road-detection'
+  },
+  {
+    id: 'ctf-platform',
+    name: 'Cybergeek CTF Platform',
+    category: 'AI Security',
+    tagClass: 'neo-tag--pink',
+    path: '~/projects/security/ctf_core_engine',
+    size: '3.8 MB',
+    status: 'ACTIVE',
+    statusColor: 'text-[var(--color-cyan)]',
+    stack: 'React // PyTorch // Node.js',
+    description: 'Capture the Flag platform designed with challenges targeting model poisoning, neural network adversarial attacks, and prompt injections.',
+    link: 'https://github.com/example/cybergeek-ctf'
+  },
+  {
+    id: 'file-vault',
+    name: 'Secure File Vault',
+    category: 'Cryptography',
+    tagClass: 'neo-tag--yellow',
+    path: '~/projects/crypto/file_vault_core',
+    size: '1.2 MB',
+    status: 'ACTIVE',
+    statusColor: 'text-[var(--color-cyan)]',
+    stack: 'Go // WebCrypto API',
+    description: 'End-to-end encrypted file storage system with zero-knowledge architecture, utilizing hybrid homomorphic key swaps and client-side encryption.',
+    link: 'https://github.com/example/secure-file-vault'
+  }
+];
+---
+
+<Layout title="Ayan Mahata — Projects Dossier">
+  <section class="mb-12">
+    <div class="flex items-center gap-2 mb-6 font-mono text-xs text-gray-500">
+      <span>SYS_DB // PROJECT_DOSSIERS</span>
+      <span>// ACCESS_GRANTED</span>
+    </div>
+    
+    <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tight mb-8 font-mono text-[var(--color-fg)]">
+      <span class="text-gray-500">&gt; </span>PROJECTS_DOSSIER
+    </h1>
+    
+    <p class="font-mono text-sm md:text-base text-gray-400 mb-12 max-w-2xl leading-relaxed">
+      Archived records of developed systems, security audit toolkits, and machine learning models optimized for edge execution. All sources are decrypted and accessible below.
+    </p>
+
+    <!-- File Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {projects.map((project) => (
+        <article class="neo-box p-6 md:p-8 rounded flex flex-col justify-between h-full bg-[var(--color-main)] group">
+          <div class="font-mono text-[var(--color-fg)]">
+            <!-- Terminal style file header -->
+            <div class="flex items-center justify-between text-[10px] text-gray-500 border-b border-[var(--color-fg)] opacity-65 pb-3 mb-5">
+              <span>CAT // {project.path}</span>
+              <span>SIZE // {project.size}</span>
+            </div>
+            
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <h2 class="text-lg md:text-2xl font-bold text-[var(--color-fg)] group-hover:text-[var(--color-cyan)] transition-colors">
+                {project.name}
+              </h2>
+              <span class={`neo-tag ${project.tagClass}`}>{project.category}</span>
+            </div>
+
+            <!-- Metadata table inside the card -->
+            <div class="grid grid-cols-2 gap-2 text-xs text-gray-700 bg-[var(--color-bg)] border border-[var(--color-fg)] p-3 rounded mb-5">
+              <div>STATUS: <span class={`font-bold ${project.statusColor}`}>{project.status}</span></div>
+              <div class="text-right">RUNTIME: <span class="font-bold">CUDA/x86_64</span></div>
+              <div class="col-span-2 border-t border-[var(--color-fg)] pt-2 mt-1">
+                STACK: <span class="font-bold text-gray-900">{project.stack}</span>
+              </div>
+            </div>
+
+            <p class="text-gray-700 font-medium text-xs md:text-sm mb-6 leading-relaxed">
+              {project.description}
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-[var(--color-fg)] opacity-85 mt-auto font-mono">
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="neo-btn text-xs bg-[var(--color-main)]">
+              ./VIEW_SOURCE_CODE
+            </a>
+            <span class="text-[10px] text-gray-500 select-none">// md5_ok</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="Ayan Mahata — Security · Systems · ML">
+  <!-- ═══════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════ -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 md:mb-24 items-center">
+    <div class="flex flex-col items-start text-left">
+      <span class="neo-tag mb-6">SOFTWARE DEVELOPER</span>
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-none mb-6">HELLO<br/>WORLD.</h1>
+      
+      <div class="font-mono text-base md:text-lg text-gray-700 leading-relaxed mb-8 max-w-lg">
+        <p>I'm Ayan. I build bold, functional software in the realms of cybersecurity, systems engineering, and machine learning.</p>
+      </div>
+      
+      <div class="flex flex-wrap gap-4">
+        <a href="/projects" class="neo-btn neo-btn--yellow px-6 py-3 text-base">ALL PROJECTS</a>
+        <a href="mailto:ayan@example.com" class="neo-btn px-6 py-3 text-base flex items-center gap-2 bg-white">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>CONTACT</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="neo-box w-full h-[320px] md:h-[380px] flex items-center justify-center bg-white relative overflow-hidden">
+      <div class="font-heading text-6xl md:text-8xl font-black text-gray-200 select-none flex items-center">
+        <span>&lt; /&gt;</span>
+        <span class="text-black animate-pulse">_</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       BASE OF OPERATIONS (Experience)
+       ═══════════════════════════════════════════════ -->
+  <section class="neo-panel neo-panel--cyan p-8 md:p-12 mb-16 md:mb-24 relative">
+    <h2 class="text-2xl md:text-4xl font-black mb-8 uppercase tracking-tight">BASE OF OPERATIONS</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8">
+      <div class="flex flex-col gap-4 font-mono font-bold text-sm md:text-base">
+        <div class="flex items-center gap-3">
+          <span class="bg-black text-white px-2 py-1 text-xs uppercase tracking-wider">LOCATION</span>
+          <span class="text-black">Earth</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="bg-black text-white px-2 py-1 text-xs uppercase tracking-wider">STATUS</span>
+          <span class="text-black">Open to collaboration</span>
+        </div>
+      </div>
+      
+      <div class="font-mono text-base md:text-lg leading-relaxed text-black">
+        <p>
+          Currently coordinating the Cybersecurity Wing at GeekHaven and prototyping ML systems for edge deployment. 
+          Specializing in full-stack development with a focus on breaking design norms.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PROJECTS
+       ═══════════════════════════════════════════════ -->
+  <section class="mb-16 md:mb-24">
+    <h2 class="text-2xl md:text-4xl font-black mb-8 uppercase tracking-tight">LATEST WORK</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
+        <div>
+          <h3 class="text-xl md:text-2xl font-black mb-3">Road Object-Detection</h3>
+          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">Real-time object detection pipeline optimized for edge inference. Sub-30ms latency.</p>
+        </div>
+        <div class="flex">
+          <span class="neo-tag bg-[var(--color-yellow)]">Computer Vision</span>
+        </div>
+      </article>
+
+      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
+        <div>
+          <h3 class="text-xl md:text-2xl font-black mb-3">Cybergeek CTF</h3>
+          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">CTF platform with challenge categories focused on AI/ML security.</p>
+        </div>
+        <div class="flex">
+          <span class="neo-tag bg-[var(--color-main)]">AI Security</span>
+        </div>
+      </article>
+
+      <article class="neo-box bg-white p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
+        <div>
+          <h3 class="text-xl md:text-2xl font-black mb-3">Secure File Vault</h3>
+          <p class="text-gray-700 font-medium text-sm md:text-base mb-6">End-to-end encrypted file storage system with zero-knowledge architecture.</p>
+        </div>
+        <div class="flex">
+          <span class="neo-tag bg-[var(--color-pink)]">Cryptography</span>
+        </div>
+      </article>
+    </div>
+  </section>
+</Layout>
