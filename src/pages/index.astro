@@ -59,19 +59,35 @@ import filteredImg from '../assets/filtered.png';
 
       let isHoveringOrFading = false;
       let fadeTimeout;
+      let borderLeft = 3;
+      let borderTop = 3;
+
+      // Cache border widths once to avoid layout thrashing during mousemove
+      try {
+        const computedStyle = window.getComputedStyle(container);
+        borderLeft = parseFloat(computedStyle.borderLeftWidth) || 3;
+        borderTop = parseFloat(computedStyle.borderTopWidth) || 3;
+      } catch (err) {}
 
       const updateCursor = (e) => {
         if (!isHoveringOrFading) return;
         
         const rect = container.getBoundingClientRect();
         
-        // Set dimensions of the inner image to exactly match the container
-        cursorGlassImg.style.width = `${rect.width}px`;
-        cursorGlassImg.style.height = `${rect.height}px`;
+        // Match the inner dimensions of the container (excluding borders)
+        const innerWidth = container.clientWidth;
+        const innerHeight = container.clientHeight;
+        
+        cursorGlassImg.style.width = `${innerWidth}px`;
+        cursorGlassImg.style.height = `${innerHeight}px`;
 
+        // Align with the inner top-left padding box (compensating for border)
+        const innerLeft = rect.left + borderLeft;
+        const innerTop = rect.top + borderTop;
+        
         // Center-based offset:
-        const offsetX = rect.left - e.clientX;
-        const offsetY = rect.top - e.clientY;
+        const offsetX = innerLeft - e.clientX;
+        const offsetY = innerTop - e.clientY;
         
         cursorGlassImg.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
       };
@@ -83,6 +99,13 @@ import filteredImg from '../assets/filtered.png';
         isHoveringOrFading = true;
         clearTimeout(fadeTimeout);
         
+        // Recalculate borders in case of layout changes
+        try {
+          const computedStyle = window.getComputedStyle(container);
+          borderLeft = parseFloat(computedStyle.borderLeftWidth) || 3;
+          borderTop = parseFloat(computedStyle.borderTopWidth) || 3;
+        } catch (err) {}
+
         // Ensure immediate update before opacity transitions
         updateCursor(e);
         
