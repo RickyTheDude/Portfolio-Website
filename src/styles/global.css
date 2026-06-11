@@ -62,10 +62,12 @@ html.dark {
     background: transparent;
     pointer-events: none;
     z-index: 9999;
+    --cursor-rotate: 0deg;
     overflow: hidden;
     transform: translate(-50%, -50%);
     transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
                 height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 background-color 0.3s ease,
                 backdrop-filter 0.3s ease,
                 border-width 0.3s ease,
@@ -84,6 +86,20 @@ html.dark {
   html.dark #magic-cursor.lens-active {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: invert(1) contrast(1.2);
+  }
+
+  #magic-cursor.selector-active {
+    width: 26px;
+    height: 26px;
+    border-width: 2px;
+    border-radius: 4px 50% 50% 50%;
+    background: transparent;
+    backdrop-filter: none;
+    --cursor-rotate: 45deg;
+  }
+
+  html.dark #magic-cursor.selector-active {
+    background: transparent;
   }
 
   #magic-cursor.image-lens-active,

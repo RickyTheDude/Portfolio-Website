@@ -146,7 +146,7 @@ const currentPath = Astro.url.pathname;
         
         if (magicCursor) {
           // Use translation for highly performant following
-          magicCursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+          magicCursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) rotate(var(--cursor-rotate, 0deg))`;
         }
       };
 
@@ -231,10 +231,13 @@ const currentPath = Astro.url.pathname;
           const target = e.target as HTMLElement;
           if (!target) return;
 
-          // If hovering inside a button, turn off the lens
-          if (target.closest('.neo-btn, .neo-social-btn')) {
+          // If hovering inside a button, turn into a selector shape
+          if (target.closest('.neo-btn, .neo-social-btn, button')) {
             cursor.classList.remove('lens-active');
+            cursor.classList.add('selector-active');
             return;
+          } else {
+            cursor.classList.remove('selector-active');
           }
           
           // Target all standard text elements + any div containing plain text metadata
