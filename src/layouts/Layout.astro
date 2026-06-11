@@ -123,12 +123,54 @@ const currentPath = Astro.url.pathname;
     <footer class="site-footer" id="site-footer">
       <div class="footer-inner">
         <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
-        <span class="mono font-light"> My cozy corner on the interwebs!</span>
+        <span class="mono font-light" style="display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          My cozy corner on the interwebs!
+          <button id="footer-contact-trigger" class="neo-btn font-bold" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
+        </span>
 
         <span class="mono font-bold">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
       </div>
     </footer>
 
+
+    <!-- Contact Modal -->
+    <dialog id="contact-modal" class="neo-modal-dialog">
+      <div class="sticky-note-modal">
+        <!-- Masking Tape -->
+        <div class="sticky-tape"></div>
+        <button id="close-modal-btn" class="modal-close-btn" aria-label="Close modal">&times;</button>
+        
+        <div class="sticky-modal-content font-mono">
+          <div class="sticky-modal-header">
+            <span class="sticky-date">SAY HELLO!</span>
+          </div>
+          
+          <p class="sticky-modal-text">
+            Have a cool project or just want to chat? Drop me a line or give me a call!
+          </p>
+          
+          <div class="contact-details">
+            <div class="contact-item">
+              <span class="contact-label">EMAIL:</span>
+              <div class="email-container neo-box">
+                <a href="mailto:academicayan2022@gmail.com" class="email-link">academicayan2022@gmail.com</a>
+                <button id="copy-email-btn" class="copy-btn" title="Copy email">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span id="copy-text">COPY</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <span class="contact-label">PHONE:</span>
+              <div class="phone-container neo-box">
+                <a href="tel:+917585912067" class="phone-link">+91 7585912067</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
 
     <!-- Scroll Progress Line -->
     <div id="scroll-progress"></div>
@@ -259,6 +301,66 @@ const currentPath = Astro.url.pathname;
         });
       };
 
+      // Contact Modal Logic
+      const initContactModal = () => {
+        const trigger = document.getElementById('footer-contact-trigger');
+        const modal = document.getElementById('contact-modal') as HTMLDialogElement | null;
+        const closeBtn = document.getElementById('close-modal-btn');
+        const copyBtn = document.getElementById('copy-email-btn');
+        const copyText = document.getElementById('copy-text');
+        const emailLink = document.querySelector('.email-link') as HTMLAnchorElement | null;
+
+        if (!modal || !trigger) return;
+
+        trigger.addEventListener('click', () => {
+          modal.showModal();
+          if (magicCursor) modal.appendChild(magicCursor);
+          document.body.style.overflow = 'hidden'; // prevent scrolling behind
+        });
+
+        const closeModal = () => {
+          modal.close();
+        };
+
+        modal.addEventListener('close', () => {
+          if (magicCursor) document.body.appendChild(magicCursor);
+          document.body.style.overflow = '';
+        });
+
+        closeBtn?.addEventListener('click', closeModal);
+
+        // Close on clicking outside the sticky note (the backdrop)
+        modal.addEventListener('click', (e) => {
+          const rect = modal.getBoundingClientRect();
+          const isInDialog = (
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom
+          );
+          const clickedOnStickyNote = (e.target as HTMLElement).closest('.sticky-note-modal');
+          if (!isInDialog || !clickedOnStickyNote) {
+            closeModal();
+          }
+        });
+
+        // Copy Email logic
+        copyBtn?.addEventListener('click', () => {
+          if (!emailLink) return;
+          const email = emailLink.textContent || 'academicayan2022@gmail.com';
+          navigator.clipboard.writeText(email).then(() => {
+            if (copyText) {
+              copyText.textContent = 'COPIED!';
+              setTimeout(() => {
+                copyText.textContent = 'COPY';
+              }, 2000);
+            }
+          }).catch(err => {
+            console.error('Failed to copy email: ', err);
+          });
+        });
+      };
+
       // Dark Mode Toggle Logic
       const initDarkModeToggle = () => {
         const toggleBtn = document.getElementById('dark-toggle');
@@ -295,11 +397,13 @@ const currentPath = Astro.url.pathname;
           initDynamicShadows();
           initLensEffect();
           initDarkModeToggle();
+          initContactModal();
         });
       } else {
         initDynamicShadows();
         initLensEffect();
         initDarkModeToggle();
+        initContactModal();
       }
     </script>
   </body>
@@ -446,6 +550,169 @@ const currentPath = Astro.url.pathname;
       gap: 0.5rem;
       text-align: center;
     }
+  }
+
+  /* --- Contact Modal & Sticky Note --- */
+  .neo-modal-dialog {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    margin: auto;
+  }
+
+  .neo-modal-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+  }
+
+  .sticky-note-modal {
+    position: relative;
+    background-color: #fef08a; /* classic sticky note yellow */
+    border: var(--border-width) solid var(--color-fg);
+    box-shadow: 10px 10px 0 0 rgba(0, 0, 0, 0.3);
+    padding: 3rem 2rem 2.5rem;
+    width: 90vw;
+    max-width: 420px;
+    color: #111111;
+    transform: rotate(-1deg);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  }
+
+  .sticky-note-modal:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 14px 14px 0 0 rgba(0, 0, 0, 0.35);
+  }
+
+  /* Modal Masking Tape */
+  .sticky-note-modal .sticky-tape {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%) rotate(1deg);
+    width: 90px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    z-index: 12;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+  }
+
+  /* Close Button styled like a small pin or tag */
+  .modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff7a59; /* terracotta red */
+    color: #ffffff;
+    border: 2px solid var(--color-fg);
+    font-size: 1.25rem;
+    font-weight: bold;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: none; /* custom cursor is active */
+    box-shadow: 2px 2px 0px 0px var(--box-shadow-color);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .modal-close-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px var(--box-shadow-color);
+  }
+
+  .sticky-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px dashed rgba(0,0,0,0.2);
+  }
+
+  .sticky-date {
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .sticky-mood {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: rgba(255,255,255,0.4);
+    border: 1.5px solid rgba(0,0,0,0.4);
+    padding: 0.15em 0.5em;
+  }
+
+  .sticky-modal-text {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .contact-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .email-container,
+  .phone-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border: 2px solid var(--color-fg);
+  }
+
+  .email-link,
+  .phone-link {
+    color: #111111;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: var(--color-cyan);
+    border: 1.5px solid var(--color-fg);
+    padding: 0.15rem 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    box-shadow: 2px 2px 0px 0px var(--box-shadow-color);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .copy-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px var(--box-shadow-color);
+  }
+
+  .copy-icon {
+    width: 12px;
+    height: 12px;
   }
 
   #scroll-progress {
