@@ -7,12 +7,18 @@
 /* --- Theme Tokens --- */
 @theme {
   /* Colors */
-  --color-bg: #ffffff; /* Pure white base for continuous background */
-  --color-fg: #111111; /* Rich charcoal black */
-  --color-main: #ffffff; /* Crisp white panels */
-  --color-cyan: #b8a2e3; /* Modern Lavender instead of Nachiket's Neo-Blue */
-  --color-yellow: #ff7a59; /* Warm Coral/Terracotta instead of Nachiket's Yellow */
-  --color-pink: #86efac; /* Minty Sage Green instead of Nachiket's Hot Pink */
+  --color-bg: #ffffff;
+  /* Pure white base for continuous background */
+  --color-fg: #111111;
+  /* Rich charcoal black */
+  --color-main: #ffffff;
+  /* Crisp white panels */
+  --color-cyan: #b8a2e3;
+  /* Modern Lavender instead of Nachiket's Neo-Blue */
+  --color-yellow: #ff7a59;
+  /* Warm Coral/Terracotta instead of Nachiket's Yellow */
+  --color-pink: #86efac;
+  /* Minty Sage Green instead of Nachiket's Hot Pink */
 
   /* Fonts */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -39,12 +45,14 @@ html.dark {
   --color-main: #242424;
   --color-cyan: #9b85c9;
   --color-yellow: #e06a4c;
-  --color-pink: #2d8a57; /* Darker, richer emerald green for better white text contrast */
+  --color-pink: #2d8a57;
+  /* Darker, richer emerald green for better white text contrast */
 }
 
 /* --- Base Reset & Typography --- */
 @layer base {
   @media (pointer: fine) {
+
     html.custom-cursor-active,
     html.custom-cursor-active * {
       cursor: none !important;
@@ -65,13 +73,13 @@ html.dark {
     --cursor-rotate: 0deg;
     overflow: hidden;
     transform: translate(-50%, -50%);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-                height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-                border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.3s ease,
-                backdrop-filter 0.3s ease,
-                border-width 0.3s ease,
-                box-shadow 0.3s ease;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.3s ease,
+      backdrop-filter 0.3s ease,
+      border-width 0.3s ease,
+      box-shadow 0.3s ease;
     will-change: transform, width, height;
   }
 
@@ -222,9 +230,11 @@ html.dark {
   .img-dark {
     display: none !important;
   }
+
   html.dark .img-dark {
     display: block !important;
   }
+
   html.dark .img-light {
     display: none !important;
   }
@@ -287,7 +297,8 @@ html.dark {
   .neo-btn:hover {
     transform: translate(var(--box-shadow-x), var(--box-shadow-y));
     box-shadow: 0px 0px 0px 0px var(--box-shadow-color);
-    background-color: var(--color-cyan); /* Shifts Standard White to Light Lavender */
+    background-color: var(--color-cyan);
+    /* Shifts Standard White to Light Lavender */
   }
 
   .neo-btn--yellow {
@@ -295,7 +306,8 @@ html.dark {
   }
 
   .neo-btn--yellow:hover {
-    background-color: var(--color-pink); /* Shifts Terracotta Orange to Light Sage Green */
+    background-color: var(--color-pink);
+    /* Shifts Terracotta Orange to Light Sage Green */
   }
 
   .neo-tag {
@@ -320,4 +332,44 @@ html.dark {
   .neo-tag--yellow {
     background-color: var(--color-yellow);
   }
+}
+
+/* --- Arcade Pop-up Animations (NYTimes Games / Neobrutalist style) --- */
+@keyframes arcadePopIn {
+  0% {
+    transform: scale(0) rotate(-12deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15) rotate(4deg);
+  }
+  75% {
+    transform: scale(0.92) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes arcadePopOut {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  100% {
+    transform: scale(0) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+.arcade-pop-in {
+  animation: arcadePopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.arcade-pop-out {
+  animation: arcadePopOut 0.3s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
 }
