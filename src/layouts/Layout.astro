@@ -181,7 +181,13 @@ const currentPath = Astro.url.pathname;
 
       const magicCursor = document.getElementById('magic-cursor');
 
-      // Track mouse coordinates for the interactive dot matrix background and custom cursor
+      /**
+       * Pointer Tracking Logic:
+       * Tracks both mouse and touch coordinates across the document.
+       * Updates CSS variables `--mouse-x` and `--mouse-y` on the document root,
+       * which drives the interactive dot matrix background.
+       * It also translates the custom `#magic-cursor` element to follow the pointer.
+       */
       const updateMousePosition = (e: MouseEvent) => {
         document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
         document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
@@ -203,7 +209,14 @@ const currentPath = Astro.url.pathname;
       window.addEventListener('mousemove', updateMousePosition);
       window.addEventListener('touchmove', updateTouchPosition);
 
-      // Scroll Progress Indicator & Header Transition
+      /**
+       * Scroll Progress & Header Transition Logic:
+       * Calculates how far the user has scrolled down the page as a percentage.
+       * Updates the width of the green `#scroll-progress` bar at the top of the screen.
+       * It also attaches a `ResizeObserver` to the document root so the progress bar
+       * automatically recalculates if the page height dynamically changes (e.g. expanding card stacks).
+       * Finally, it adds a CSS class to the navigation bar when the user reaches the absolute bottom.
+       */
       const updateScrollProgress = () => {
         const currentScrollY = window.scrollY;
         const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
@@ -239,7 +252,14 @@ const currentPath = Astro.url.pathname;
         resizeObserver.observe(document.documentElement);
       }
 
-      // Dynamic Neobrutalist Shadow Tracking
+      /**
+       * Dynamic Neobrutalist Shadow Tracking:
+       * Finds all elements with `.neo-box` or `.neo-panel` classes.
+       * When the mouse hovers over these elements, it calculates the distance between the 
+       * mouse cursor and the center of the element. It then dynamically updates CSS variables
+       * `--x-shadow` and `--y-shadow` to push the drop shadow away from the cursor,
+       * creating an interactive "light source" effect.
+       */
       const initDynamicShadows = () => {
         const tiles = document.querySelectorAll('.neo-box, .neo-panel');
         
@@ -275,7 +295,13 @@ const currentPath = Astro.url.pathname;
         });
       };
 
-      // Initialize Magic Cursor Lens Effects
+      /**
+       * Magic Cursor Lens Effects:
+       * Attaches a global mouseover listener to dynamically change the shape of the custom cursor.
+       * - When hovering over buttons or interactive elements, it transforms into a rounded "selector".
+       * - When hovering over text, it acts as a magnifying glass, scaling its size proportionally
+       *   to the `font-size` of the underlying text element.
+       */
       const initLensEffect = () => {
         const cursor = document.getElementById('magic-cursor');
         if (!cursor) return;
@@ -312,7 +338,12 @@ const currentPath = Astro.url.pathname;
         });
       };
 
-      // Contact Modal Logic
+      /**
+       * Contact Modal Logic:
+       * Handles opening and closing the sticky note contact modal appended to the footer.
+       * When opening, it temporarily moves the `#magic-cursor` inside the `<dialog>` element
+       * to bypass the browser's top-layer isolation, ensuring the custom cursor remains visible over the modal.
+       */
       const initContactModal = () => {
         const trigger = document.getElementById('footer-contact-trigger');
         const modal = document.getElementById('contact-modal') as HTMLDialogElement | null;
