@@ -11,7 +11,7 @@ const {
 
 const navLinks = [
   { label: 'HOME', href: '/' },
-  { label: 'PROJECTS', href: '/projects' },
+  { label: 'WORK', href: '/work' },
   { label: 'BLOG', href: '/blog' },
 ];
 
@@ -123,9 +123,9 @@ const currentPath = Astro.url.pathname;
     <footer class="site-footer" id="site-footer">
       <div class="footer-inner">
         <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
-        <span class="mono font-light" style="display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-          My cozy corner on the interwebs!
-          <button id="footer-contact-trigger" class="neo-btn font-bold" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
+        <span class="mono font-light footer-tagline">
+          <span>My cozy corner on the interwebs!</span>
+          <button id="footer-contact-trigger" class="neo-btn font-bold cursor-none" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
         </span>
 
         <span class="mono font-bold">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
@@ -204,7 +204,7 @@ const currentPath = Astro.url.pathname;
       window.addEventListener('touchmove', updateTouchPosition);
 
       // Scroll Progress Indicator & Header Transition
-      window.addEventListener('scroll', () => {
+      const updateScrollProgress = () => {
         const currentScrollY = window.scrollY;
         const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
         
@@ -226,7 +226,18 @@ const currentPath = Astro.url.pathname;
             nav.classList.remove('nav-at-bottom');
           }
         }
+      };
+
+      window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      window.addEventListener('resize', updateScrollProgress, { passive: true });
+      
+      // Automatically update when page layout/height changes dynamically
+      const resizeObserver = new ResizeObserver(() => {
+        updateScrollProgress();
       });
+      if (document.documentElement) {
+        resizeObserver.observe(document.documentElement);
+      }
 
       // Dynamic Neobrutalist Shadow Tracking
       const initDynamicShadows = () => {
@@ -538,6 +549,14 @@ const currentPath = Astro.url.pathname;
     font-size: 0.875rem;
   }
 
+  .footer-tagline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
   /* --- Responsive --- */
   @media (max-width: 640px) {
     .nav-inner {
@@ -547,8 +566,15 @@ const currentPath = Astro.url.pathname;
 
     .footer-inner {
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 1.25rem;
       text-align: center;
+    }
+
+    .footer-tagline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.50rem;
     }
   }
 
