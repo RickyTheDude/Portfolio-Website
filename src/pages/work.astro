@@ -18,9 +18,10 @@ const featuredProjects = [
     title: "Secure File Vault",
     category: "Project",
     timeframe: "Sep 2025",
-    description: "A full-stack secure file storage application prioritizing end-to-end encryption and zero-knowledge architecture. Built with a modern React and Tailwind CSS interface, the system encrypts all files client-side using a hybrid RSA and AES-GCM cryptographic implementation, ensuring the server never accesses unencrypted data or private keys.",
+    description: "A full-stack secure file storage application prioritizing end-to-end encryption and zero-knowledge architecture. Built with a modern React and Tailwind CSS interface, the system encrypts all files client-side using a hybrid RSA and AES-GCM cryptographic implementation, ensuring the server never stores unencrypted data or private keys.",
     techStack: ["React + Vite", "Tailwind CSS", "Node.js + Express", "Web Crypto API", "LevelDB"],
     links: [
+      { text: "Live App", url: "https://secure-file-vault-7o4.pages.dev" },
       { text: "Source Code", url: "https://github.com/Niketw/secure-file-vault" }
     ],
   },
@@ -117,7 +118,7 @@ A few things I've spent way too much time thinking about.      </p>
           featuredProjects.map((item) => (
             <article class="neo-panel bg-[var(--color-main)] p-8 md:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 shadow-[8px_8px_0_0_var(--color-fg)]">
               
-              <!-- Left Column: Title, Tags & Links -->
+              <!-- Left Column: Title, Tags & Tech Stack -->
               <div class="lg:w-2/5 flex flex-col gap-4">
                 <div class="flex flex-wrap gap-2 mb-2">
                   <span class="font-mono text-xs font-bold bg-[var(--color-yellow)] text-[var(--color-bg)] px-3 py-1.5 border-2 border-[var(--color-fg)]">
@@ -145,7 +146,13 @@ A few things I've spent way too much time thinking about.      </p>
                     ))}
                   </div>
                 )}
+              </div>
 
+              <!-- Right Column: Content & Links -->
+              <div class="lg:w-3/5 flex flex-col justify-between">
+                <p class="font-mono text-base md:text-lg leading-relaxed text-[var(--color-fg)] opacity-90">
+                  {item.description}
+                </p>
                 {item.links && item.links.length > 0 && (
                   <div class="flex flex-wrap gap-4 mt-6">
                     {item.links.map(link => (
@@ -182,13 +189,6 @@ A few things I've spent way too much time thinking about.      </p>
                     ))}
                   </div>
                 )}
-              </div>
-
-              <!-- Right Column: Content -->
-              <div class="lg:w-3/5 flex flex-col">
-                <p class="font-mono text-base md:text-lg leading-relaxed text-[var(--color-fg)] opacity-90">
-                  {item.description}
-                </p>
               </div>
               
             </article>
