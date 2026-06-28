@@ -63,6 +63,7 @@ html.dark {
   }
 
   #magic-cursor {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -84,6 +85,10 @@ html.dark {
       border-width 0.3s ease,
       box-shadow 0.3s ease;
     will-change: transform, width, height;
+  }
+
+  html.custom-cursor-active #magic-cursor {
+    display: block;
   }
 
   #magic-cursor.lens-active {

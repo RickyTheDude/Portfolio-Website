@@ -132,8 +132,8 @@ const currentPath = Astro.url.pathname;
         </div>
 
         <div class="flex items-center gap-3">
-          <a href="/work#resume-bento-card" class="neo-btn font-bold cursor-none bg-[var(--color-pink)] hover:bg-[var(--color-cyan)]" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">RESUME</a>
-          <button id="footer-contact-trigger" class="neo-btn font-bold cursor-none" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
+          <a href="/work#resume-bento-card" class="neo-btn font-bold bg-[var(--color-pink)] hover:bg-[var(--color-cyan)]" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">RESUME</a>
+          <button id="footer-contact-trigger" class="neo-btn font-bold" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
         </div>
       </div>
     </footer>
@@ -183,8 +183,11 @@ const currentPath = Astro.url.pathname;
     <div id="scroll-progress"></div>
 
     <script>
-      // Enable custom cursor styles only if JS loads
-      document.documentElement.classList.add('custom-cursor-active');
+      // Enable custom cursor styles only if JS loads and not on a mobile browser in normal view
+      const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (!isMobileUA) {
+        document.documentElement.classList.add('custom-cursor-active');
+      }
 
       const magicCursor = document.getElementById('magic-cursor');
 
@@ -680,7 +683,6 @@ const currentPath = Astro.url.pathname;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: none; /* custom cursor is active */
     box-shadow: 2px 2px 0px 0px var(--box-shadow-color);
     transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
