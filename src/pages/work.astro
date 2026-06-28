@@ -720,6 +720,16 @@ A few things I've spent way too much time thinking about.      </p>
         }
       });
     });
+
+    // Adjust scroll position if arriving with a hash, after stack heights are calculated
+    if (window.location.hash) {
+      setTimeout(() => {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    }
   });
 </script>
 
@@ -736,6 +746,7 @@ A few things I've spent way too much time thinking about.      </p>
     color: var(--color-fg);
     overflow: hidden;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+    scroll-margin-top: 120px;
   }
 
   .bento-featured-resume:hover {
