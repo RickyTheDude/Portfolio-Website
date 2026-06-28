@@ -121,14 +121,20 @@ const currentPath = Astro.url.pathname;
 
     <!-- Footer -->
     <footer class="site-footer" id="site-footer">
-      <div class="footer-inner">
-        <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
-        <span class="mono font-light footer-tagline">
-          <span>My cozy corner on the interwebs!</span>
-          <button id="footer-contact-trigger" class="neo-btn font-bold cursor-none" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
-        </span>
+      <div class="footer-inner flex flex-col md:flex-row justify-between items-center gap-4 w-full">
+        <div class="flex flex-col items-center md:items-start gap-1">
+          <span class="mono font-bold">&copy; {new Date().getFullYear()} AYAN MAHATA</span>
+          <span class="mono font-light text-xs opacity-70">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
+        </div>
+        
+        <div class="footer-tagline text-center">
+          <span class="mono font-light hidden md:inline">My cozy corner on the interwebs!</span>
+        </div>
 
-        <span class="mono font-bold">LAST UPDATED: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span>
+        <div class="flex items-center gap-3">
+          <a href="/work#resume-bento-card" class="neo-btn font-bold cursor-none bg-[var(--color-pink)] hover:bg-[var(--color-cyan)]" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">RESUME</a>
+          <button id="footer-contact-trigger" class="neo-btn font-bold cursor-none" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1;">CONTACT ME</button>
+        </div>
       </div>
     </footer>
 
