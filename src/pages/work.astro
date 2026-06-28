@@ -319,10 +319,85 @@ A few things I've spent way too much time thinking about.      </p>
           <div class="md:w-2/3">
             <p class="font-mono text-sm md:text-base leading-relaxed text-[var(--color-fg)] opacity-90 border-l-4 border-[var(--color-pink)] pl-4 py-1">
               {communityWork[3].description}
-            </p>
+</p>
           </div>
         </article>
 
+      </div>
+    </div>    <!-- Bento Resume Section (Multi-Profile Interactive) -->
+    <div class="mt-20">
+      <div
+        id="resume-bento-card"
+        class="bento-featured-resume"
+      >
+        <!-- big watermark text -->
+        <span class="feat-num font-mono" aria-hidden="true">CV</span>
+
+        <div class="bento-resume-grid flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 relative z-10 w-full">
+          <!-- Left side content -->
+          <div class="flex-1 flex flex-col justify-center gap-4 md:pl-6">
+            <h2 class="feat-title">Like my work?</h2>
+            <p class="feat-desc font-mono max-w-2xl">Select a profile to view the relevant technical background and professional experiences.</p>
+            
+            <!-- Interactive Selector Tabs -->
+            <div class="flex flex-wrap gap-3 mt-2" id="resume-tabs">
+              <button class="resume-tab active cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-[var(--color-pink)] text-[#111111] px-3 py-1 rounded-sm shadow-[2px_2px_0_0_var(--color-fg)] transition-all" data-profile="systems">Systems</button>
+              <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="frontend">Frontend</button>
+              <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="ml">Mach. Learning</button>
+            </div>
+          </div>
+
+          <!-- Right side mini preview -->
+          <div class="w-full md:w-auto flex justify-center items-center pr-6 md:pr-10">
+            <a id="resume-download-link" href="https://drive.google.com/file/d/1v0L-rI_PvNiQJESLCzsMMBEoXcNPWoGz/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="mini-resume-container flex justify-center items-center py-2 relative cursor-pointer">
+              <!-- Small background decorative sheet for depth -->
+              <div class="absolute w-[180px] h-[240px] bg-[var(--color-main)] border-2 border-[var(--color-fg)] opacity-40 -rotate-3 translate-x-2 translate-y-2 pointer-events-none"></div>
+              
+              <!-- Main mini resume paper -->
+              <div id="mini-resume-page" class="mini-resume-page relative w-[180px] h-[240px] bg-[var(--color-main)] border-2 border-[var(--color-fg)] p-3 flex flex-col gap-3 shadow-[4px_4px_0_0_var(--color-fg)] rotate-2 transition-transform duration-300 pointer-events-none">
+                <!-- Header -->
+                <div class="border-b border-[var(--color-fg)] pb-1.5 flex flex-col gap-0.5">
+                  <div class="h-2 w-16 bg-[var(--color-fg)] rounded-sm"></div>
+                  <div class="h-1 w-24 bg-[var(--color-fg)] opacity-60 rounded-sm"></div>
+                </div>
+                
+                <!-- Section: Experience -->
+                <div class="flex flex-col gap-1.5">
+                  <div class="h-1.5 w-12 bg-[var(--color-fg)] rounded-sm"></div>
+                  <div class="flex flex-col gap-1">
+                    <div class="flex justify-between items-center">
+                      <div class="h-1 w-20 bg-[var(--color-fg)] opacity-60 rounded-sm"></div>
+                      <div class="h-1 w-6 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                    </div>
+                    <div class="h-1 w-28 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                    <div class="h-1 w-24 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <div class="flex justify-between items-center">
+                      <div class="h-1 w-16 bg-[var(--color-fg)] opacity-60 rounded-sm"></div>
+                      <div class="h-1 w-6 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                    </div>
+                    <div class="h-1 w-28 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                  </div>
+                </div>
+                
+                <!-- Section: Education -->
+                <div class="flex flex-col gap-1.5">
+                  <div class="h-1.5 w-12 bg-[var(--color-fg)] rounded-sm"></div>
+                  <div class="flex flex-col gap-1">
+                    <div class="h-1 w-24 bg-[var(--color-fg)] opacity-60 rounded-sm"></div>
+                    <div class="h-1 w-28 bg-[var(--color-fg)] opacity-40 rounded-sm"></div>
+                  </div>
+                </div>
+                
+                <!-- Mini floating download badge on the preview -->
+                <div id="resume-sticker" class="absolute bottom-2 right-2 bg-[var(--color-pink)] text-[#111111] border-2 border-[var(--color-fg)] font-mono text-[9px] font-black px-1.5 py-0.5 shadow-[2px_2px_0_0_var(--color-fg)] transition-transform duration-200">
+                  SYS
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -596,5 +671,150 @@ A few things I've spent way too much time thinking about.      </p>
       activeBgClass: 'bg-[var(--color-cyan)]',
       gapPixels: 40 // equivalent to gap-10
     });
+    // Resume Selector Logic
+    const resumeTabs = document.querySelectorAll('.resume-tab');
+    const downloadLink = document.getElementById('resume-download-link');
+    const sticker = document.getElementById('resume-sticker');
+
+    const resumeData = {
+      systems: { link: 'https://drive.google.com/file/d/1v0L-rI_PvNiQJESLCzsMMBEoXcNPWoGz/view?usp=sharing', text: 'SYS', color: 'var(--color-pink)' },
+      frontend: { link: 'https://drive.google.com/file/d/1U_BWuX2PDLczXB4UjeRg39xZb15cKJtP/view?usp=sharing', text: 'FE', color: 'var(--color-blue)' },
+      ml: { link: 'https://drive.google.com/file/d/1HimgDxriM_kK8LJnz61FRr038GV6HsBA/view?usp=sharing', text: 'ML', color: 'var(--color-cyan)' }
+    };
+    
+    resumeTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        // Prevent click default behavior
+        e.preventDefault();
+        
+        // Remove active styling from all tabs
+        resumeTabs.forEach(t => {
+          t.classList.remove('bg-[var(--color-pink)]', 'bg-[var(--color-cyan)]', 'bg-[var(--color-blue)]', 'text-[#111111]', 'shadow-[2px_2px_0_0_var(--color-fg)]');
+          t.classList.add('bg-transparent', 'text-[var(--color-fg)]');
+        });
+
+        // Add active styling to clicked tab
+        const profile = tab.dataset.profile;
+        tab.classList.remove('bg-transparent', 'text-[var(--color-fg)]');
+        tab.classList.add('text-[#111111]', 'shadow-[2px_2px_0_0_var(--color-fg)]');
+        
+        // Dynamic background color for active tab
+        if (profile === 'systems') tab.classList.add('bg-[var(--color-pink)]');
+        else if (profile === 'frontend') tab.classList.add('bg-[var(--color-blue)]');
+        else if (profile === 'ml') tab.classList.add('bg-[var(--color-cyan)]');
+
+        // Update current link state & sticker UI
+        const data = resumeData[profile];
+        if (downloadLink) {
+          downloadLink.href = data.link;
+        }
+        
+        if (sticker) {
+          sticker.textContent = data.text;
+          sticker.style.backgroundColor = data.color;
+          // Small pop animation
+          sticker.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            sticker.style.transform = 'scale(1)';
+          }, 150);
+        }
+      });
+    });
   });
 </script>
+
+<style>
+  .bento-featured-resume {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--color-yellow);
+    border: 3px solid var(--color-fg);
+    box-shadow: 6px 6px 0 0 var(--color-fg);
+    padding: 2rem 2rem 1.75rem;
+    text-decoration: none;
+    color: var(--color-fg);
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .bento-featured-resume:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 0 var(--color-fg);
+  }
+
+  .feat-num {
+    position: absolute;
+    right: -0.1em;
+    bottom: -0.25em;
+    font-size: clamp(8rem, 20vw, 14rem);
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(0,0,0,0.07);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
+  }
+
+  .feat-label {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: var(--color-fg);
+    color: var(--color-yellow);
+    padding: 0.2em 0.75em;
+    margin-bottom: 1.5rem;
+    width: fit-content;
+  }
+
+  .feat-meta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(0,0,0,0.5);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .feat-title {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+    width: 100%;
+    max-width: 22ch;
+    text-transform: none;
+  }
+
+  .feat-desc {
+    font-size: 0.85rem;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 60ch;
+    font-weight: 400;
+  }
+
+  .feat-arrow {
+    position: absolute;
+    top: 1.75rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    opacity: 0.3;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .bento-featured-resume:hover .feat-arrow {
+    opacity: 1;
+    transform: translate(3px, -3px);
+  }
+
+  .mini-resume-container:hover .mini-resume-page {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 6px 6px 0 0 rgba(0,0,0,1);
+  }
+</style>

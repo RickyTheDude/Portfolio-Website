@@ -19,6 +19,8 @@
   /* Warm Coral/Terracotta instead of Nachiket's Yellow */
   --color-pink: #86efac;
   /* Minty Sage Green instead of Nachiket's Hot Pink */
+  --color-blue: #3b82f6;
+  /* Vibrant Blue for the new 4th selection color */
 
   /* Fonts */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -47,6 +49,7 @@ html.dark {
   --color-yellow: #e06a4c;
   --color-pink: #2d8a57;
   /* Darker, richer emerald green for better white text contrast */
+  --color-blue: #60a5fa;
 }
 
 /* --- Base Reset & Typography --- */
