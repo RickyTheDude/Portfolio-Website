@@ -25,9 +25,7 @@ const currentPath = Astro.url.pathname;
 
 // Generate canonical URL and absolute image URL
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
-const resolvedImageURL = image 
-  ? new URL(image, Astro.url.origin) 
-  : new URL(linkPreview.src, Astro.url.origin);
+const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
