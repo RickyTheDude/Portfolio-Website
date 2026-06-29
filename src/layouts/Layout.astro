@@ -1,12 +1,18 @@
 ---
+import linkPreview from '../assets/link_preview.png';
+
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: string;
 }
 
 const {
   title = 'Ayan Mahata',
   description = 'My cozy corner on the interwebs!',
+  image,
+  type = 'website',
 } = Astro.props;
 
 const navLinks = [
@@ -16,6 +22,12 @@ const navLinks = [
 ];
 
 const currentPath = Astro.url.pathname;
+
+// Generate canonical URL and absolute image URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const resolvedImageURL = image 
+  ? new URL(image, Astro.url.origin) 
+  : new URL(linkPreview.src, Astro.url.origin);
 ---
 
 <!doctype html>
@@ -26,6 +38,20 @@ const currentPath = Astro.url.pathname;
     <meta name="description" content={description} />
     <meta name="author" content="Ayan Mahata" />
     <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedImageURL} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={resolvedImageURL} />
 
     <!-- Anti-FOUC Dark Mode Script -->
     <script is:inline>
