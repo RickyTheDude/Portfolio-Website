@@ -211,6 +211,8 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
     <div id="scroll-progress"></div>
 
     <script>
+      import pressSound from '../assets/press-sound.mp3';
+
       // Enable custom cursor styles only if JS loads and not on a mobile browser in normal view
       const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       if (!isMobileUA) {
@@ -218,6 +220,103 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
       }
 
       const magicCursor = document.getElementById('magic-cursor');
+
+      // Click sound Web Audio API setup for zero-latency playback
+      let audioBuffer: AudioBuffer | null = null;
+      let audioCtx: AudioContext | null = null;
+
+      const initAudio = async () => {
+        if (audioBuffer) return;
+        try {
+          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+          audioCtx = new AudioContextClass();
+          
+          const response = await fetch(pressSound);
+          const arrayBuffer = await response.arrayBuffer();
+          
+          audioBuffer = await new Promise<AudioBuffer>((resolve, reject) => {
+            audioCtx!.decodeAudioData(
+              arrayBuffer, 
+              (buffer) => resolve(buffer), 
+              (err) => reject(err)
+            );
+          });
+        } catch (err) {
+          console.debug('Failed to preload click audio:', err);
+        }
+      };
+
+      // Preload and decode audio in the background
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => { initAudio(); });
+      } else {
+        initAudio();
+      }
+
+      const playClickSound = async () => {
+        try {
+          if (!audioCtx) await initAudio();
+          if (!audioCtx || !audioBuffer) return;
+
+          // Resume context if suspended by browser autoplay policy
+          if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+          }
+
+          const source = audioCtx.createBufferSource();
+          source.buffer = audioBuffer;
+
+          const gainNode = audioCtx.createGain();
+          gainNode.gain.value = 0.4; // subtle volume
+
+          source.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          source.start(0);
+        } catch (err) {
+          console.debug('Web Audio play failed:', err);
+        }
+      };
+
+      // Delegate click sound to all buttons, links, and interactive elements
+      document.body.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!target) return;
+
+        // Check if click is on/within a link or a button-like element
+        const link = target.closest('a') as HTMLAnchorElement | null;
+        const isInteractive = target.closest('button, [role="button"], .neo-btn, .neo-social-btn, .copy-btn');
+
+        if (isInteractive || link) {
+          playClickSound();
+        }
+
+        // For links that navigate the current page, delay navigation slightly to let the click sound play
+        if (link) {
+          const href = link.getAttribute('href');
+          const targetAttr = link.getAttribute('target');
+          const isSameOrigin = link.origin === window.location.origin;
+          const isHashOnly = href && (href.startsWith('#') || (link.pathname === window.location.pathname && link.search === window.location.search && href.includes('#')));
+          
+          if (
+            href &&
+            isSameOrigin &&
+            !isHashOnly &&
+            !href.startsWith('mailto:') &&
+            !href.startsWith('tel:') &&
+            (!targetAttr || targetAttr === '_self') &&
+            !e.metaKey &&
+            !e.ctrlKey &&
+            !e.shiftKey &&
+            e.button === 0
+          ) {
+            e.preventDefault();
+            setTimeout(() => {
+              window.location.href = href;
+            }, 120); // Snappy 120ms delay allows the click sound to play its peak before unloading
+          }
+        }
+      });
 
       /**
        * Pointer Tracking Logic:
