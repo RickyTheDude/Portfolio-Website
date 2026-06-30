@@ -212,6 +212,7 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
 
     <script>
       import pressSound from '../assets/press-sound.mp3';
+      import clickSound from '../assets/click-sound.mp3';
 
       // Enable custom cursor styles only if JS loads and not on a mobile browser in normal view
       const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -221,28 +222,40 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
 
       const magicCursor = document.getElementById('magic-cursor');
 
-      // Click sound Web Audio API setup for zero-latency playback
-      let audioBuffer: AudioBuffer | null = null;
+      // Click & Press sounds Web Audio API setup for zero-latency playback
+      let pressBuffer: AudioBuffer | null = null;
+      let clickBuffer: AudioBuffer | null = null;
       let audioCtx: AudioContext | null = null;
 
       const initAudio = async () => {
-        if (audioBuffer) return;
+        if (pressBuffer && clickBuffer) return;
         try {
           const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
           audioCtx = new AudioContextClass();
           
-          const response = await fetch(pressSound);
-          const arrayBuffer = await response.arrayBuffer();
-          
-          audioBuffer = await new Promise<AudioBuffer>((resolve, reject) => {
-            audioCtx!.decodeAudioData(
-              arrayBuffer, 
-              (buffer) => resolve(buffer), 
-              (err) => reject(err)
-            );
-          });
+          const loadBuffer = async (url: string): Promise<AudioBuffer | null> => {
+            const response = await fetch(url);
+            const arrayBuffer = await response.arrayBuffer();
+            return new Promise<AudioBuffer>((resolve, reject) => {
+              audioCtx!.decodeAudioData(arrayBuffer, resolve, reject);
+            });
+          };
+
+          const [pBuf, cBuf] = await Promise.all([
+            loadBuffer(pressSound).catch((err) => {
+              console.error('Failed to load/decode press sound:', err);
+              return null;
+            }),
+            loadBuffer(clickSound).catch((err) => {
+              console.error('Failed to load/decode click sound:', err);
+              return null;
+            })
+          ]);
+
+          pressBuffer = pBuf;
+          clickBuffer = cBuf;
         } catch (err) {
-          console.debug('Failed to preload click audio:', err);
+          console.debug('Failed to preload click/press audio:', err);
         }
       };
 
@@ -253,21 +266,32 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
         initAudio();
       }
 
-      const playClickSound = async () => {
+      const playAudio = (type: 'press' | 'click') => {
         try {
-          if (!audioCtx) await initAudio();
-          if (!audioCtx || !audioBuffer) return;
+          if (!audioCtx || !clickBuffer || !pressBuffer) {
+            initAudio(); // Try to initialize in the background for next clicks if not ready
+            console.log('playAudio: context or buffers not fully initialized');
+            return;
+          }
 
-          // Resume context if suspended by browser autoplay policy
+          const buffer = type === 'click' ? clickBuffer : pressBuffer;
+          if (!buffer) {
+            console.log(`playAudio: buffer for ${type} is null`);
+            return;
+          }
+
+          console.log(`playAudio: playing ${type}, duration: ${buffer.duration}s`);
+
+          // Resume context synchronously (crucial for iOS Safari & Chrome gesture verification)
           if (audioCtx.state === 'suspended') {
-            await audioCtx.resume();
+            audioCtx.resume().catch((err) => console.debug('Failed to resume AudioContext:', err));
           }
 
           const source = audioCtx.createBufferSource();
-          source.buffer = audioBuffer;
+          source.buffer = buffer;
 
           const gainNode = audioCtx.createGain();
-          gainNode.gain.value = 0.4; // subtle volume
+          gainNode.gain.value = type === 'click' ? 0.35 : 0.4; // subtle volumes
 
           source.connect(gainNode);
           gainNode.connect(audioCtx.destination);
@@ -288,7 +312,13 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
         const isInteractive = target.closest('button, [role="button"], .neo-btn, .neo-social-btn, .copy-btn');
 
         if (isInteractive || link) {
-          playClickSound();
+          // Play click-sound.mp3 if it occurs inside the navbar, otherwise play press-sound.mp3
+          const isNavbar = target.closest('.site-nav');
+          if (isNavbar) {
+            playAudio('click');
+          } else {
+            playAudio('press');
+          }
         }
 
         // For links that navigate the current page, delay navigation slightly to let the click sound play

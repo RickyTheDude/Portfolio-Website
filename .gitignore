@@ -39,3 +39,4 @@ pnpm-debug.log*
 # Optional npm cache directory
 .npm
 src/.DS_Store
+src/assets/.DS_Store
