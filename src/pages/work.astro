@@ -352,7 +352,7 @@ A few things I've spent way too much time thinking about.      </p>
             <!-- Interactive Selector Tabs -->
             <div class="flex flex-wrap gap-3 mt-2" id="resume-tabs">
               <button class="resume-tab active cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-[var(--color-pink)] text-[#111111] px-3 py-1 rounded-sm shadow-[2px_2px_0_0_var(--color-fg)] transition-all" data-profile="systems">Systems</button>
-              <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="frontend">Frontend</button>
+              <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="fullstack">Full-stack</button>
               <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="ml">Mach. Learning</button>
             </div>
           </div>
@@ -688,7 +688,7 @@ A few things I've spent way too much time thinking about.      </p>
 
     const resumeData = {
       systems: { link: 'https://drive.google.com/file/d/1v0L-rI_PvNiQJESLCzsMMBEoXcNPWoGz/view?usp=sharing', text: 'SYS', color: 'var(--color-pink)' },
-      frontend: { link: 'https://drive.google.com/file/d/1U_BWuX2PDLczXB4UjeRg39xZb15cKJtP/view?usp=sharing', text: 'FE', color: 'var(--color-blue)' },
+      fullstack: { link: 'https://drive.google.com/file/d/1U_BWuX2PDLczXB4UjeRg39xZb15cKJtP/view?usp=sharing', text: 'FS', color: 'var(--color-blue)' },
       ml: { link: 'https://drive.google.com/file/d/1HimgDxriM_kK8LJnz61FRr038GV6HsBA/view?usp=sharing', text: 'ML', color: 'var(--color-cyan)' }
     };
     
@@ -710,7 +710,7 @@ A few things I've spent way too much time thinking about.      </p>
         
         // Dynamic background color for active tab
         if (profile === 'systems') tab.classList.add('bg-[var(--color-pink)]');
-        else if (profile === 'frontend') tab.classList.add('bg-[var(--color-blue)]');
+        else if (profile === 'fullstack') tab.classList.add('bg-[var(--color-blue)]');
         else if (profile === 'ml') tab.classList.add('bg-[var(--color-cyan)]');
 
         // Update current link state & sticker UI
