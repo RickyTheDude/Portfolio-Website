@@ -26,6 +26,7 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-blog: 'Space Grotesk', system-ui, -apple-system, sans-serif;
 
   /* Neobrutalism specifics */
   --border-width: 3px;
