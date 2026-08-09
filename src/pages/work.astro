@@ -348,7 +348,7 @@ A few things I've spent way too much time thinking about.      </p>
             
             <!-- Interactive Selector Tabs -->
             <div class="flex flex-wrap gap-3 mt-2" id="resume-tabs">
-              <button class="resume-tab active cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-[var(--color-pink)] text-[#111111] px-3 py-1 rounded-sm shadow-[2px_2px_0_0_var(--color-fg)] transition-all" data-profile="systems">Systems</button>
+              <button class="resume-tab active cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-[var(--color-pink)] text-[#111111] px-3 py-1 rounded-sm shadow-[2px_2px_0_0_var(--color-fg)] transition-all" data-profile="product">Product</button>
               <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="fullstack">Full-stack</button>
               <button class="resume-tab cursor-pointer font-mono text-xs font-bold border-2 border-[var(--color-fg)] bg-transparent text-[var(--color-fg)] px-3 py-1 rounded-sm hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] transition-all" data-profile="ml">Mach. Learning</button>
             </div>
@@ -356,7 +356,7 @@ A few things I've spent way too much time thinking about.      </p>
 
           <!-- Right side mini preview -->
           <div class="w-full md:w-auto flex justify-center items-center pr-6 md:pr-10">
-            <a id="resume-download-link" href="https://drive.google.com/file/d/1v0L-rI_PvNiQJESLCzsMMBEoXcNPWoGz/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="mini-resume-container flex justify-center items-center py-2 relative cursor-pointer">
+            <a id="resume-download-link" href="https://drive.google.com/file/d/1TS-cj3pf9AvG_uBRtJy_6vhh1_Wy-dlB/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="mini-resume-container flex justify-center items-center py-2 relative cursor-pointer">
               <!-- Small background decorative sheet for depth -->
               <div class="absolute w-[180px] h-[240px] bg-[var(--color-main)] border-2 border-[var(--color-fg)] opacity-40 -rotate-3 translate-x-2 translate-y-2 pointer-events-none"></div>
               
@@ -399,7 +399,7 @@ A few things I've spent way too much time thinking about.      </p>
                 
                 <!-- Mini floating download badge on the preview -->
                 <div id="resume-sticker" class="absolute bottom-2 right-2 bg-[var(--color-pink)] text-[#111111] border-2 border-[var(--color-fg)] font-mono text-[9px] font-black px-1.5 py-0.5 shadow-[2px_2px_0_0_var(--color-fg)] transition-transform duration-200">
-                  SYS
+                  PROD
                 </div>
               </div>
             </a>
@@ -684,7 +684,7 @@ A few things I've spent way too much time thinking about.      </p>
     const sticker = document.getElementById('resume-sticker');
 
     const resumeData = {
-      systems: { link: 'https://drive.google.com/file/d/1v0L-rI_PvNiQJESLCzsMMBEoXcNPWoGz/view?usp=sharing', text: 'SYS', color: 'var(--color-pink)' },
+      product: { link: 'https://drive.google.com/file/d/1TS-cj3pf9AvG_uBRtJy_6vhh1_Wy-dlB/view?usp=sharing', text: 'PROD', color: 'var(--color-pink)' },
       fullstack: { link: 'https://drive.google.com/file/d/1U_BWuX2PDLczXB4UjeRg39xZb15cKJtP/view?usp=sharing', text: 'FS', color: 'var(--color-blue)' },
       ml: { link: 'https://drive.google.com/file/d/1HimgDxriM_kK8LJnz61FRr038GV6HsBA/view?usp=sharing', text: 'ML', color: 'var(--color-cyan)' }
     };
@@ -706,7 +706,7 @@ A few things I've spent way too much time thinking about.      </p>
         tab.classList.add('text-[#111111]', 'shadow-[2px_2px_0_0_var(--color-fg)]');
         
         // Dynamic background color for active tab
-        if (profile === 'systems') tab.classList.add('bg-[var(--color-pink)]');
+        if (profile === 'product') tab.classList.add('bg-[var(--color-pink)]');
         else if (profile === 'fullstack') tab.classList.add('bg-[var(--color-blue)]');
         else if (profile === 'ml') tab.classList.add('bg-[var(--color-cyan)]');
 
