@@ -49,6 +49,7 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={resolvedImageURL} />
+    <meta property="og:site_name" content="Ayan Mahata" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -83,6 +84,17 @@ const resolvedImageURL = new URL(image ?? linkPreview.src, Astro.site ?? Astro.u
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- WebSite Structured Data: explicitly tells Google the preferred site name -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://ayanmahata.pages.dev/",
+        "name": "Ayan Mahata",
+        "alternateName": "Ayan Mahata Portfolio"
+      }
+    </script>
   </head>
   <body>
     <!-- Custom Magic Cursor -->
