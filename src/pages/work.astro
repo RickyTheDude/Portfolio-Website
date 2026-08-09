@@ -256,11 +256,8 @@ A few things I've spent way too much time thinking about.      </p>
         </article>
 
         <!-- FreshHat Learning Repository -->
-        <article class="neo-panel bg-[var(--color-main)] p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 shadow-[6px_6px_0_0_var(--color-fg)] items-start relative overflow-hidden">
-          <!-- Decorative code/dots background -->
-          <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(var(--color-fg) 2px, transparent 2px); background-size: 20px 20px;"></div>
-          
-          <div class="md:w-1/3 flex flex-col gap-3 relative z-10">
+        <article class="neo-panel bg-[var(--color-main)] p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 shadow-[6px_6px_0_0_var(--color-fg)] items-start">
+          <div class="md:w-1/3 flex flex-col gap-3">
             <div class="flex flex-wrap gap-2">
               <span class="font-mono text-[10px] font-bold bg-[var(--color-main)] text-[var(--color-fg)] px-2 py-1 border-2 border-[var(--color-fg)] uppercase">{communityWork[1].category}</span>
               <span class="font-mono text-[10px] font-bold bg-[var(--color-fg)] text-[var(--color-bg)] px-2 py-1 border-2 border-[var(--color-fg)] uppercase">{communityWork[1].timeframe}</span>
@@ -268,7 +265,7 @@ A few things I've spent way too much time thinking about.      </p>
             <h3 class="text-xl md:text-2xl font-black tracking-tight text-[var(--color-fg)] leading-tight break-words">{communityWork[1].title}</h3>
           </div>
           
-          <div class="md:w-2/3 relative z-10 flex flex-col">
+          <div class="md:w-2/3 flex flex-col">
             <p class="font-mono text-sm md:text-base leading-relaxed text-[var(--color-fg)] opacity-90 mb-5">
               {communityWork[1].description}
             </p>
@@ -294,10 +291,8 @@ A few things I've spent way too much time thinking about.      </p>
         </article>
 
         <!-- Cybergeek CTF -->
-        <article class="neo-panel bg-[var(--color-main)] p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 shadow-[6px_6px_0_0_var(--color-fg)] items-start relative overflow-hidden">
-          <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(var(--color-fg) 1.5px, transparent 1.5px); background-size: 16px 16px;"></div>
-          
-          <div class="md:w-1/3 flex flex-col gap-3 relative z-10">
+        <article class="neo-panel bg-[var(--color-main)] p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 shadow-[6px_6px_0_0_var(--color-fg)] items-start">
+          <div class="md:w-1/3 flex flex-col gap-3">
             <div class="flex flex-wrap justify-between items-start">
               <span class="font-mono text-[10px] font-bold bg-[var(--color-pink)] text-[var(--color-bg)] px-2 py-1 border-2 border-[var(--color-fg)] uppercase">{communityWork[2].category}</span>
               <a href={communityWork[2].link} target="_blank" rel="noopener noreferrer" class="opacity-40 hover:opacity-100 transition-opacity" aria-label="Visit Cybergeek CTF">
@@ -307,7 +302,7 @@ A few things I've spent way too much time thinking about.      </p>
             <h3 class="text-xl md:text-2xl font-black tracking-tight text-[var(--color-fg)] leading-tight break-words">{communityWork[2].title}</h3>
           </div>
           
-          <div class="md:w-2/3 relative z-10 flex flex-col">
+          <div class="md:w-2/3 flex flex-col">
             <p class="font-mono text-sm md:text-base leading-relaxed text-[var(--color-fg)] opacity-90 mb-4">
               {communityWork[2].description}
             </p>
